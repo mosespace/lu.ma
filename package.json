@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "preview": "next build && next start",
-    "postinstall": "prisma generate"
+    "preview": "next build && next start"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.0.5",
