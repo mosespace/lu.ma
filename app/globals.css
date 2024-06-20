@@ -4,65 +4,67 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 18 100% 98.04%;
+    --foreground: 21.6 100% 4.9%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --primary: 21.26 100% 49.8%;
+    --primary-foreground: 0 0% 100%;
+
+    --card: 18 100% 98.04%;
+    --card-foreground: 21.6 100% 4.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 21.6 100% 4.9%;
 
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+    --secondary: 20.53 100% 92.55%;
+    --secondary-foreground: 24 100% 1.96%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --muted: 21.6 100% 95.1%;
+    --muted-foreground: 0 0% 40%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 21.6 100% 95.1%;
+    --accent-foreground: 21.26 100% 49.8%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
+    --border: 0 0% 90.2%;
+    --input: 0 0% 90.2%;
+    --ring: 21.26 100% 49.8%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    --background: 24 100% 1.96%;
+    --foreground: 20.53 100% 92.55%;
 
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
+    --primary: 21.26 100% 49.8%;
+    --primary-foreground: 0 0% 100%;
 
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
+    --card: 24 100% 1.96%;
+    --card-foreground: 20.53 100% 92.55%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --popover: 24 100% 1.96%;
+    --popover-foreground: 20.53 100% 92.55%;
 
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 20.9 100% 17.45%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 26.67 15.25% 11.57%;
+    --muted-foreground: 24 2.01% 51.18%;
 
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 20.9 100% 17.45%;
+    --accent-foreground: 20.53 100% 92.55%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 21.26 100% 49.8%;
+
+    --radius: 0.5rem;
   }
 }
 
@@ -73,4 +75,217 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* services-card */
+.card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  border-radius: 24px;
+  line-height: 1.6;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 36px;
+  border-radius: 22px;
+  color: #ffffff;
+  overflow: hidden;
+  background: #fe5a00;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content::before {
+  position: absolute;
+  content: "";
+  top: -4%;
+  left: 50%;
+  width: 90%;
+  height: 90%;
+  transform: translate(-50%);
+  background: #ced8ff;
+  z-index: -1;
+  transform-origin: bottom;
+
+  border-radius: inherit;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content::after {
+  position: absolute;
+  content: "";
+  top: -8%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  transform: translate(-50%);
+  background: #e7ecff;
+  z-index: -2;
+  transform-origin: bottom;
+  border-radius: inherit;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content svg {
+  width: 48px;
+  height: 48px;
+}
+
+.content .para {
+  z-index: 1;
+  opacity: 1;
+  font-size: 18px;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content .link {
+  z-index: 1;
+  color: #fea000;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 16px;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.content .link:hover {
+  text-decoration: underline;
+}
+
+.card:hover {
+  transform: translate(0px, -16px);
+}
+
+.card:hover .content::before {
+  rotate: -8deg;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.card:hover .content::after {
+  rotate: 8deg;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* google search */
+.searchbar {
+  font-size: 14px;
+  font-family: arial, sans-serif;
+  color: #202124;
+  display: flex;
+  z-index: 3;
+  height: 40px;
+  background: #8e8989;
+  /* border: 1px solid #dfe1e5;/ */
+  box-shadow: none;
+  /* border-radius: 24px; */
+  margin: 0 auto;
+  width: auto;
+  max-width: 1000px;
+}
+
+.searchbar:hover {
+  box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
+  border-color: rgba(223, 225, 229, 0);
+}
+
+.searchbar-wrapper {
+  flex: 1;
+  display: flex;
+  padding: 5px 8px 0 14px;
+}
+
+.searchbar-left {
+  font-size: 14px;
+  font-family: arial, sans-serif;
+  color: #202124;
+  display: flex;
+  align-items: center;
+  padding-right: 13px;
+  margin-top: -5px;
+}
+
+.search-icon-wrapper {
+  margin: auto;
+}
+
+.search-icon {
+  margin-top: 3px;
+  color: #9aa0a6;
+  height: 20px;
+  line-height: 20px;
+  width: 20px;
+}
+
+.searchbar-icon {
+  display: inline-block;
+  fill: currentColor;
+  height: 24px;
+  line-height: 24px;
+  position: relative;
+  width: 24px;
+}
+
+.searchbar-center {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.searchbar-input-spacer {
+  color: transparent;
+  flex: 100%;
+  white-space: pre;
+  height: 34px;
+  font-size: 16px;
+}
+
+.searchbar-input {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.87);
+  word-wrap: break-word;
+  outline: none;
+  display: flex;
+  flex: 100%;
+  margin-top: -37px;
+  height: 34px;
+  font-size: 16px;
+  max-width: 100%;
+  width: 100%;
+}
+
+.searchbar-right {
+  display: flex;
+  flex: 0 0 auto;
+  margin-top: -5px;
+  align-items: stretch;
+  flex-direction: row;
+}
+
+.searchbar-clear-icon {
+  margin-right: 12px;
+}
+
+.voice-search {
+  flex: 1 0 auto;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  outline: none;
+  padding: 0 8px;
+  width: 2.8em;
 }
