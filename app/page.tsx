@@ -1,20 +1,5 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
-
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { Announcement } from "@/components/announcement";
-import { Icons } from "@/components/icons";
-import {
-  PageActions,
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "@/components/page-header";
-
-import { buttonVariants } from "@/components/ui/button";
 import Balancer from "react-wrap-balancer";
 import EventCard from "@/components/event-card";
 import { EventCardProps, ICategory, IService } from "@/types/types";
