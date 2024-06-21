@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,6 +26,8 @@ import {
   FileCheck2,
   SlidersHorizontal,
 } from "lucide-react";
+import { useState } from "react";
+import DateFilter from "@/components/DateFilter";
 
 const events: EventCardProps[] = [
   {
@@ -140,12 +144,43 @@ const services: IService[] = [
   },
 ];
 
+const days: any[] = [
+  { day: "ПТ", date: 12 },
+  { day: "СБ", date: 13 },
+  { day: "ВС", date: 14 },
+  { day: "ПН", date: 15 },
+  { day: "ВТ", date: 16 },
+  { day: "СР", date: 17 },
+  { day: "ЧТ", date: 18 },
+  { day: "ПТ", date: 19 },
+  { day: "СБ", date: 20 },
+  { day: "ВС", date: 21 },
+  { day: "ПН", date: 22 },
+  { day: "ВТ", date: 23 },
+  { day: "СР", date: 24 },
+  { day: "ЧТ", date: 25 },
+  { day: "ПТ", date: 26 },
+  { day: "СБ", date: 27 },
+  { day: "ВС", date: 28 },
+  { day: "ПН", date: 29 },
+  { day: "ВТ", date: 30 },
+  { day: "СР", date: 31 },
+  { day: "ЧТ", date: 1 },
+  { day: "ПТ", date: 2 },
+];
 export default function IndexPage() {
+  const [filteredEvents, setFilteredEvents] = useState([]);
+
+  const handleDateSelect = (date: any) => {
+    const filtered: any = events.filter((event) => event.date === date);
+    setFilteredEvents(filtered);
+  };
+
   return (
     <main className=''>
       <div className='min-h-1/2 bg-blackB w-full flex items-center justify-center'>
-        <div className='px-8 py-12 mx-auto md:px-12 lg:px-32 max-w-7xl'>
-          <div className='grid items-center grid-cols-1 gap-4 list-none lg:grid-cols-2 lg:gap-24'>
+        <div className='px-12 py-12 mx-auto max-w-7xl'>
+          <div className='grid items-start grid-cols-1 gap-4 list-none lg:grid-cols-2 lg:gap-24'>
             <div>
               <span className='text-xs font-bold tracking-wide text-[#FE5A00] uppercase'>
                 events 24/7
@@ -162,10 +197,10 @@ export default function IndexPage() {
               {/* you can add buttons here */}
             </div>
             <div className='p-2 border bg-gray-50 rounded-3xl'>
-              <div className='h-full overflow-hidden bg-white border shadow-lg rounded-3xl'>
+              <div className='h-[20rem] overflow-hidden bg-white border shadow-lg rounded-3xl'>
                 <img
                   alt='Lexingtøn thumbnail'
-                  className='relative w-full rounded-2xl drop-shadow-2xl'
+                  className='relative w-full rounded-2xl object-cover drop-shadow-2xl'
                   src='https://windstatic.com/images/appify/phone.png'
                 />
               </div>
@@ -175,6 +210,11 @@ export default function IndexPage() {
       </div>
 
       <div className='max-w-7xl pb-24 mx-auto'>
+        <div className='container mx-auto flex flex-col mt-12'>
+          <h1 className='text-3xl font-bold'>Куда</h1>
+          <DateFilter events={events} onDateSelect={handleDateSelect} />
+        </div>
+
         {/* main events */}
         <div className='container mx-auto'>
           <div className='flex justify-between mb-1 mt-8'>
@@ -301,8 +341,8 @@ export default function IndexPage() {
             })}
           </div>
 
-          <button className='text-center mt-8 w-full font-bold justify-center flex items-center underline  decoration-dashed'>
-            <span className='underline decoration-dashed'>Eрбубурге</span>
+          <button className='text-center mt-8 w-full font-bold justify-center flex items-center '>
+            <span className=''>Eрбубурге</span>
             <ChevronDown className='size-5 underline decoration-dashed' />
           </button>
         </div>

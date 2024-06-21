@@ -67,7 +67,7 @@ export function SiteHeader() {
                 </div>
 
                 <div className='searchbar-right'>
-                  <SquareArrowRight className='size-9 text-orangeB voice-search' />
+                  <SquareArrowRight className='size-9 text-white voice-search' />
                 </div>
               </div>
             </div>
