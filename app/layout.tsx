@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
-import { SiteHeader } from "@/components/site-header";
+import type { Metadata } from "next";
+import Providers from "@/providers/providers";
 import SiteFooter from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { Inter as FontSans } from "next/font/google";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -27,12 +27,7 @@ export default function RootLayout({
       <body
         className={cn("min-h-screen font-sans antialiased", fontSans.variable)}
       >
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='light'
-          enableSystem
-          disableTransitionOnChange
-        >
+        <Providers>
           <div vaul-drawer-wrapper=''>
             <div className='relative flex min-h-screen flex-col'>
               <SiteHeader />
@@ -40,7 +35,7 @@ export default function RootLayout({
               <SiteFooter />
             </div>
           </div>
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

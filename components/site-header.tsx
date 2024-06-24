@@ -1,14 +1,5 @@
-import Link from "next/link";
+"use client";
 
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { CommandMenu } from "@/components/command-menu";
-import { Icons } from "@/components/icons";
-import { MainNav } from "@/components/main-nav";
-import { MobileNav } from "@/components/mobile-nav";
-
-import { ThemeToggle } from "./theme-toggle";
-import { buttonVariants } from "./ui/button";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, SquareArrowRight } from "lucide-react";
 import {
@@ -25,10 +16,24 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export function SiteHeader() {
+  const pathname = usePathname(); // Use useRouter to get the current pathname
+  const isEventPath = pathname.startsWith("/event");
+  const isDashboardPath = pathname.startsWith("/dashboard");
+
+  if (isDashboardPath) {
+    return null;
+  }
   return (
-    <header className='sticky bg-blackB top-0 z-50 w-full bg-zinc/95 backdrop-blur'>
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full bg-blackB backdrop-blur",
+        isEventPath && "bg-background"
+      )}
+    >
       <div className='max-w-7xl mx-auto p-4'>
         <div className='flex justify-between items-center'>
           <Button

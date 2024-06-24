@@ -1,4 +1,6 @@
-import Image from "next/image";
+"use client";
+
+import { usePathname } from "next/navigation";
 
 const navigation = {
   connect: [
@@ -25,6 +27,12 @@ const navigation = {
 };
 
 const SiteFooter = () => {
+  const pathname = usePathname();
+  const isDashboardPath = pathname.startsWith("/dashboard");
+
+  if (isDashboardPath) {
+    return null;
+  }
   return (
     <section className='bg-blackB pt-4'>
       <footer
@@ -34,18 +42,12 @@ const SiteFooter = () => {
         <h2 id='footer-heading' className='sr-only'>
           Footer
         </h2>
-        <div className='mx-auto max-w-7xl px-2'>
+        <div className='mx-auto max-w-7xl'>
           <div className='flex flex-col justify-between lg:flex-row'>
             <div className='space-y-8'>
-              <Image
-                priority={true}
-                unoptimized={true}
-                width={100}
-                height={40}
-                src='/logo.svg'
-                alt='logo'
-                className='h-7 w-auto'
-              />
+              <h2 className='font-black text-orangeB text-2xl'>
+                Event<span className='font-light'>Yo</span>
+              </h2>
               <p className='text-md max-w-xs leading-6 text-white dark:text-gray-300'>
                 Not your average component library - build faster, launch
                 sooner.

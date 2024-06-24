@@ -1,10 +1,9 @@
-import * as React from "react";
 import Link from "next/link";
-
+import * as React from "react";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 import { NavItem } from "@/types/types";
 import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 interface MainNavProps {
   items?: NavItem[];
