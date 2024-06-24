@@ -9,7 +9,7 @@ import { PostEventFormThree } from "@/components/post-event-forms/post-event-for
 import { PostEventFormFour } from "@/components/post-event-forms/post-event-form-four";
 import { FormConfirmation } from "@/components/post-event-forms/form-confirmation";
 
-const PostEvent: React.FC = () => {
+export default function PostEvent() {
   const step = useSelector((state: any) => state.creatingEvent.step);
   const router = useRouter();
 
@@ -38,6 +38,4 @@ const PostEvent: React.FC = () => {
   }
 
   return <>{renderFormByStep(step)}</>;
-};
-
-export default PostEvent;
+}
