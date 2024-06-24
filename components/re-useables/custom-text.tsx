@@ -29,7 +29,10 @@ export default function CustomText({
     <div className={cn("grid gap-2", className)}>
       {type === "password" && page === "login" ? (
         <div className='flex items-center'>
-          <Label htmlFor={`${name}`}> {label}</Label>
+          <Label htmlFor={`${name}`} className='dark:text-orangeB'>
+            {" "}
+            {label}
+          </Label>
           <Link
             href='/forgot-password'
             className='ml-auto inline-block text-sm underline'

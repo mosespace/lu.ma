@@ -16,6 +16,11 @@ export default function Map() {
 
       const { Map } = await loader.importLibrary("maps");
 
+      // init a marker
+      const { Marker } = (await loader.importLibrary(
+        "marker"
+      )) as google.maps.MarkerLibrary;
+
       const defaultPosition = {
         lat: 1.373333,
         lng: 32.290275,
@@ -27,6 +32,7 @@ export default function Map() {
         mapId: "MY_NEXTJS_MAPID",
       };
 
+      // set up the marker
       const map = new Map(mapRef.current as HTMLDivElement, mapOptions);
 
       // Get the user's current position
@@ -40,6 +46,13 @@ export default function Map() {
 
             // Update the map center to the user's position
             map.setCenter(userPosition);
+
+            // Add a marker at the user's position
+            new Marker({
+              map: map,
+              position: userPosition,
+              title: "This is your current location",
+            });
           },
           (error) => {
             console.error("Error getting user's location:", error);

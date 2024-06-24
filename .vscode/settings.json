@@ -11,6 +11,7 @@
     "reduxjs",
     "searchbar",
     "selectables",
-    "vaul"
+    "vaul",
+    "zustand"
   ]
 }

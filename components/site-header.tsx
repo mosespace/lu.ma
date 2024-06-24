@@ -22,6 +22,11 @@ import { cn } from "@/lib/utils";
 export function SiteHeader() {
   const pathname = usePathname(); // Use useRouter to get the current pathname
   const isEventPath = pathname.startsWith("/event");
+  const isDashboardPath = pathname.startsWith("/dashboard");
+
+  if (isDashboardPath) {
+    return null;
+  }
   return (
     <header
       className={cn(

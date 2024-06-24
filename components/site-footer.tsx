@@ -1,3 +1,7 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 const navigation = {
   connect: [
     { name: "Book Meeting", href: "" },
@@ -23,6 +27,12 @@ const navigation = {
 };
 
 const SiteFooter = () => {
+  const pathname = usePathname();
+  const isDashboardPath = pathname.startsWith("/dashboard");
+
+  if (isDashboardPath) {
+    return null;
+  }
   return (
     <section className='bg-blackB pt-4'>
       <footer
