@@ -1,72 +1,54 @@
 "use client";
 
-import { z } from "zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import ImageUploader from "@/components/image-uploader";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { PhoneInput } from "../phone-input";
 import Image from "next/image";
+import { useState } from "react";
+import { Label } from "../ui/label";
+import FooterBtns from "./footer_btns";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { PhoneInput } from "../phone-input";
+import { ProgressTracker } from "../progress";
+import CustomText from "../re-useables/custom-text";
+import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
 
-const FormSchema = z.object({
-  country: z.string().min(2, {
-    message: "Country must be at least 2 characters.",
-  }),
-  state: z.string().min(2, {
-    message: "State must be at least 2 characters.",
-  }),
-  address1: z.string().min(2, {
-    message: "Address One must be at least 2 characters.",
-  }),
-  address2: z.string().optional(),
-  email: z
-    .string()
-    .min(2, {
-      message: "Email is required",
-    })
-    .email({
-      message: "Not a valid email",
-    }),
-  contact: z.string().min(1, {
-    message: "Contact must be at least 1 characters.",
-  }),
-});
+interface FormSchema {
+  country: string;
+  state: string;
+  address1: string;
+  address2: string;
+  email: string;
+  tel: string;
+}
 
 export function PostEventFormTwo() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
 
-  const [imageUrl, setImageUrl] = useState<string>("");
+  const dispatch = useDispatch();
+  const step = useSelector((state: any) => state.creatingEvent.step);
+  // console.log(step);
+  const formData = useSelector((state: any) => state.creatingEvent.formData);
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const {
+    register,
+    reset,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
-      country: "",
-      state: "",
-      address1: "",
-      address2: "",
-      email: "",
+      ...formData,
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-          <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  function onSubmit(data: FormSchema) {
+    data.tel = phoneNumber;
+
+    // console.log(`Form 2 Data: ${JSON.stringify(data, null, 2)}`);
+
+    dispatch(updateFormData(data));
+
+    dispatch(setCurrentStep(step + 1));
   }
 
   const handlePhoneChange = (value: any) => {
@@ -74,111 +56,79 @@ export function PostEventFormTwo() {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className='w-full gap-4 items-start flex'
-      >
-        <div className='w-full space-y-8'>
-          <FormField
-            control={form.control}
-            name='country'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Country</FormLabel>
-                <FormControl>
-                  <Input placeholder='Uganda (UG)' {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='min-h-screen py-8 w-full flex flex-col items-center justify-center'
+    >
+      <div className='flex w-full flex-col items-center justify-center'>
+        <h2 className='font-bold text-xl'>Location-Класс</h2>
 
-          <FormField
-            control={form.control}
-            name='state'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>State</FormLabel>
-                <FormControl>
-                  <Input
-                    type='string'
-                    placeholder='Kampala, Central'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <p className='mb-4'>Шаг {step} из 4</p>
+        <ProgressTracker />
+      </div>
 
-          <FormField
-            control={form.control}
-            name='address1'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Address One</FormLabel>
-                <FormControl>
-                  <Input
-                    type='string'
-                    placeholder='Lugogo 4th Street'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <div className='flex bg-white max-w-4xl w-full mx-auto mt-4 shadow-lg rounded-lg p-12'>
+        <div className='w-full gap-4 items-start flex'>
+          <div className='w-full space-y-8'>
+            <CustomText
+              register={register}
+              errors={errors}
+              name='country'
+              type='text'
+              label='Country'
+              placeholder='Uganda (UG)'
+            />
+            <CustomText
+              register={register}
+              errors={errors}
+              name='state'
+              type='text'
+              label='State'
+              placeholder='Kampala, Central'
+            />
+            <CustomText
+              register={register}
+              errors={errors}
+              name='address1'
+              type='text'
+              label='Address One'
+              placeholder='Lugogo 4th Street'
+            />
+            <CustomText
+              register={register}
+              errors={errors}
+              name='address2'
+              type='text'
+              label='Address Two'
+              placeholder='This field is optional'
+            />
+            <CustomText
+              register={register}
+              errors={errors}
+              name='email'
+              type='email'
+              label='Email'
+              placeholder='mosespace@gmail.com'
+            />
 
-          <FormField
-            control={form.control}
-            name='address2'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Address Two (Optional)</FormLabel>
-                <FormControl>
-                  <Input
-                    type='string'
-                    placeholder='this field is optional'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <div className='space-y-2'>
+              <Label>Contact Details</Label>
+              <PhoneInput onChange={handlePhoneChange} defaultCountry='UG' />
+            </div>
+          </div>
 
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type='email'
-                    placeholder='mosespace@gmail.com'
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <PhoneInput onChange={handlePhoneChange} defaultCountry='UG' />
+          <div className='w-full'>
+            <Image
+              width={1080}
+              height={1080}
+              alt='lu.ma'
+              src={formData?.photo || "/side-img.svg"}
+              className='object-cover rounded-xl w-full h-full'
+            />
+          </div>
         </div>
-
-        <div className='w-full'>
-          <Image
-            width={1080}
-            height={1080}
-            alt='lu.ma'
-            src='/side-img.svg'
-            className='object-cover rounded-xl w-full h-full'
-          />
-        </div>
-      </form>
-    </Form>
+      </div>
+      <FooterBtns />
+    </form>
   );
 }

@@ -129,30 +129,6 @@ const services: IService[] = [
   },
 ];
 
-const days: any[] = [
-  { day: "ПТ", date: 12 },
-  { day: "СБ", date: 13 },
-  { day: "ВС", date: 14 },
-  { day: "ПН", date: 15 },
-  { day: "ВТ", date: 16 },
-  { day: "СР", date: 17 },
-  { day: "ЧТ", date: 18 },
-  { day: "ПТ", date: 19 },
-  { day: "СБ", date: 20 },
-  { day: "ВС", date: 21 },
-  { day: "ПН", date: 22 },
-  { day: "ВТ", date: 23 },
-  { day: "СР", date: 24 },
-  { day: "ЧТ", date: 25 },
-  { day: "ПТ", date: 26 },
-  { day: "СБ", date: 27 },
-  { day: "ВС", date: 28 },
-  { day: "ПН", date: 29 },
-  { day: "ВТ", date: 30 },
-  { day: "СР", date: 31 },
-  { day: "ЧТ", date: 1 },
-  { day: "ПТ", date: 2 },
-];
 export default function IndexPage() {
   const [filteredEvents, setFilteredEvents] = useState([]);
 

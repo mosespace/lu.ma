@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const navigation = {
   connect: [
     { name: "Book Meeting", href: "" },
@@ -34,18 +32,12 @@ const SiteFooter = () => {
         <h2 id='footer-heading' className='sr-only'>
           Footer
         </h2>
-        <div className='mx-auto max-w-7xl px-2'>
+        <div className='mx-auto max-w-7xl'>
           <div className='flex flex-col justify-between lg:flex-row'>
             <div className='space-y-8'>
-              <Image
-                priority={true}
-                unoptimized={true}
-                width={100}
-                height={40}
-                src='/logo.svg'
-                alt='logo'
-                className='h-7 w-auto'
-              />
+              <h2 className='font-black text-orangeB text-2xl'>
+                Event<span className='font-light'>Yo</span>
+              </h2>
               <p className='text-md max-w-xs leading-6 text-white dark:text-gray-300'>
                 Not your average component library - build faster, launch
                 sooner.

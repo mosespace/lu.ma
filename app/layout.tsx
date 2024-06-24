@@ -30,9 +30,9 @@ export default function RootLayout({
         <Providers>
           <div vaul-drawer-wrapper=''>
             <div className='relative flex min-h-screen flex-col'>
-              {/* <SiteHeader /> */}
+              <SiteHeader />
               <main className='flex-1'>{children}</main>
-              {/* <SiteFooter /> */}
+              <SiteFooter />
             </div>
           </div>
         </Providers>

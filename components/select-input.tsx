@@ -9,18 +9,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 type SelectInputProps = {
   label: string;
   optionTitle: string;
   className?: string;
   options: SelectOption[];
-  selectedOption: any;
-  setSelectedOption: any;
+  selectedOption: SelectOption | null;
+  setSelectedOption: (option: SelectOption | null) => void;
 };
+
 export type SelectOption = {
   value: string;
   label: string;
 };
+
 export default function ShadSelectInput({
   label,
   className = "sm:col-span-2",
@@ -29,6 +32,12 @@ export default function ShadSelectInput({
   selectedOption,
   setSelectedOption,
 }: SelectInputProps) {
+  const handleValueChange = (value: string) => {
+    const selectedOption =
+      options.find((option) => option.value === value) || null;
+    setSelectedOption(selectedOption);
+  };
+
   return (
     <div className={className}>
       <label
@@ -38,20 +47,18 @@ export default function ShadSelectInput({
         {label}
       </label>
       <div className='mt-2'>
-        <Select onValueChange={(value) => setSelectedOption(value)}>
+        <Select onValueChange={handleValueChange}>
           <SelectTrigger className='w-full'>
             <SelectValue placeholder={`${optionTitle}`} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel>{optionTitle}</SelectLabel>
-              {options.map((item) => {
-                return (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                );
-              })}
+              {options.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
             </SelectGroup>
           </SelectContent>
         </Select>
