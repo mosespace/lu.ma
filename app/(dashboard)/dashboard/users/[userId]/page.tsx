@@ -1,22 +1,32 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { getAllUsers } from "@/actions/users";
 import DashboardBreadcrumb from "@/components/dashboard-breadcrumb";
 import { ContentLayout } from "@/components/dashboard/content-layout";
+import { UserForm } from "@/components/forms/user-form";
 
-export default function page({
+export default async function page({
   params: { userId },
 }: {
   params: { userId: any };
 }) {
+  const users = await getAllUsers();
+  // console.log(users);
+
+  const user = users?.find((user) => user.id === userId);
+
+  const initialData = user;
+
   return (
     <ContentLayout title='Dashboard'>
       <DashboardBreadcrumb />
-      <Card className='rounded-lg border-none mt-6'>
-        <CardContent className='p-6'>
-          <div className='flex justify-center items-center min-h-[calc(100vh-56px-64px-20px-24px-56px-48px)]'>
-            User: {userId}
-          </div>
-        </CardContent>
-      </Card>
+      <UserForm
+        roles={[
+          { _id: "ADMIN", name: "ADMIN" },
+          { _id: "ATTENDEE", name: "ATTENDEE" },
+          { _id: "ORGANIZER", name: "ORGANIZER" },
+        ]}
+        initialData={initialData}
+        key={null}
+      />
     </ContentLayout>
   );
 }

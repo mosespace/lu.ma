@@ -1,10 +1,13 @@
-import { users } from "@/constants/data";
 import { Card, CardContent } from "@/components/ui/card";
 import { UserClient } from "@/components/tables/user-tables/client";
 import DashboardBreadcrumb from "@/components/dashboard-breadcrumb";
 import { ContentLayout } from "@/components/dashboard/content-layout";
+import { getAllUsers } from "@/actions/users";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const users = await getAllUsers();
+  // console.log(users);
+
   return (
     <ContentLayout title='Dashboard'>
       <DashboardBreadcrumb />

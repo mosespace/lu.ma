@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { DataTable } from "@/components/tables/data-table";
 
 interface ProductsClientProps {
-  data: User[];
+  data: any;
 }
 
 export const UserClient: React.FC<ProductsClientProps> = ({ data }) => {

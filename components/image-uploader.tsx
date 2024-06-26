@@ -22,17 +22,19 @@ export default function ImageUploader({
 }) {
   return (
     <div className={className}>
-      <div className='mb-4 flex items-center justify-between'>
-        <Label htmlFor={label}>{label}</Label>
+      <div className='mb-4 flex items-center justify-between gap-3'>
+        <Label htmlFor={label} className='text-sm'>
+          {label}
+        </Label>
 
         {imageUrl && (
           <button
             onClick={() => setImageUrl("")}
             type='button'
-            className='flex space-x-2 rounded-md bg-slate-900 px-4 py-2 text-slate-50 shadow'
+            className='flex items-center space-x-2 rounded-md bg-orangeB px-4 py-2 text-slate-50 shadow'
           >
-            <Pencil className='h-5 w-5' />
-            <span>Change Image</span>
+            <Pencil className='h-4 w-4' />
+            <span>Change</span>
           </button>
         )}
       </div>
@@ -40,8 +42,8 @@ export default function ImageUploader({
         <Image
           src={imageUrl}
           alt={label}
-          width={1000}
-          height={667}
+          width={1080}
+          height={1080}
           className='h-64 w-full object-contain'
         />
       ) : (
