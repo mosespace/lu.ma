@@ -213,17 +213,15 @@ export default function IndexPage() {
         <div className='container mx-auto mt-12'>
           <div className='bg-orangeB relative py-12 flex justify-between w-full items-center px-8 rounded-lg'>
             <div className='flex-col flex'>
-              <Balancer>
-                <h1 className='text-white text-2xl font-bold'>
+              <h1 className='text-white text-2xl font-bold'>
+                <Balancer>
                   Куда сходить в Санкт-Петербурге{" "}
                   <span className='text-2xl font-bold'>Куда сходить</span>
-                </h1>
-              </Balancer>
-              <Balancer>
-                <p className='mt-2 text-sm text-black'>
-                  Куда сходить в Санкт-ПетербургеКуда сходить в
-                  Санкт-ПетербургеКуда сходить в Санкт-Петербурге
-                </p>
+                </Balancer>
+              </h1>
+              <Balancer className='mt-2 text-sm text-black'>
+                Куда сходить в Санкт-ПетербургеКуда сходить в
+                Санкт-ПетербургеКуда сходить в Санкт-Петербурге
               </Balancer>
             </div>
             <div className='hidden rounded-full lg:block lg:absolute -bottom-[2.5rem] right-0'>
@@ -311,19 +309,16 @@ export default function IndexPage() {
         <div className='container mx-auto mt-12'>
           <div className='grid items-center justify-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-8'>
             <div className='bg-blackB relative flex flex-col w-full items-center justify-center px-8 py-4 rounded-lg'>
+              <h1 className='text-orangeB text-2xl text-center font-bold'></h1>
               <Balancer>
-                <h1 className='text-orangeB text-2xl text-center font-bold'>
-                  Куда сходить в Санкт-Петербурге{" "}
-                  <span className='text-white text-center text-2xl font-bold'>
-                    Куда сходить
-                  </span>
-                </h1>
+                Куда сходить в Санкт-Петербурге{" "}
+                <span className='text-white text-center text-2xl font-bold'>
+                  Куда сходить
+                </span>
               </Balancer>
-              <Balancer>
-                <p className='mt-2 text-sm text-center text-[#c4c4c4]'>
-                  Куда сходить в Санкт-ПетербургеКуда сходить в
-                  Санкт-ПетербургеКуда сходить в Санкт-Петербурге
-                </p>
+              <Balancer className='mt-2 text-sm text-center text-[#c4c4c4]'>
+                Куда сходить в Санкт-ПетербургеКуда сходить в
+                Санкт-ПетербургеКуда сходить в Санкт-Петербурге
               </Balancer>
               <div className='rounded-full absolute bottom-4 bg-[#FEC302] p-24'></div>
               <img
@@ -333,37 +328,33 @@ export default function IndexPage() {
               />
             </div>
             <div className='bg-blackB relative flex flex-col w-full items-center justify-center px-8 py-4 rounded-lg'>
-              <Balancer>
-                <h1 className='text-orangeB text-2xl text-center font-bold'>
+              <h1 className='text-orangeB text-2xl text-center font-bold'>
+                <Balancer>
                   Куда сходить в Санкт-Петербурге{" "}
                   <span className='text-white text-center text-2xl font-bold'>
                     Куда сходить
                   </span>
-                </h1>
-              </Balancer>
-              <Balancer>
-                <p className='mt-2 text-sm text-center text-[#c4c4c4]'>
-                  Куда сходить в Санкт-ПетербургеКуда сходить в
-                  Санкт-ПетербургеКуда сходить в Санкт-Петербурге
-                </p>
+                </Balancer>
+              </h1>
+              <Balancer className='mt-2 text-sm text-center text-[#c4c4c4]'>
+                Куда сходить в Санкт-ПетербургеКуда сходить в
+                Санкт-ПетербургеКуда сходить в Санкт-Петербурге
               </Balancer>
               <div className='rounded-full absolute bottom-4 bg-[#FF4C45] p-24'></div>
               <img src='/mic.png' alt='' className='mt-4 relative z-10' />
             </div>
             <div className='bg-blackB relative flex flex-col w-full items-center justify-center px-8 py-4 rounded-lg'>
-              <Balancer>
-                <h1 className='text-orangeB text-2xl text-center font-bold'>
+              <h1 className='text-orangeB text-2xl text-center font-bold'>
+                <Balancer>
                   Куда сходить в Санкт-Петербурге{" "}
                   <span className='text-white text-center text-2xl font-bold'>
                     Куда сходить
                   </span>
-                </h1>
-              </Balancer>
-              <Balancer>
-                <p className='mt-2 text-sm text-center text-[#c4c4c4]'>
-                  Куда сходить в Санкт-ПетербургеКуда сходить в
-                  Санкт-ПетербургеКуда сходить в Санкт-Петербурге
-                </p>
+                </Balancer>
+              </h1>
+              <Balancer className='mt-2 text-sm text-center text-[#c4c4c4]'>
+                Куда сходить в Санкт-ПетербургеКуда сходить в
+                Санкт-ПетербургеКуда сходить в Санкт-Петербурге
               </Balancer>
               <div className='rounded-full absolute bottom-4 bg-[#FEC302] p-24'></div>
               <img

@@ -3,6 +3,7 @@
 import store from "@/store/store";
 import { Provider } from "react-redux";
 import React, { ReactNode } from "react";
+import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export default function Providers({ children }: { children: ReactNode }) {
@@ -15,6 +16,7 @@ export default function Providers({ children }: { children: ReactNode }) {
         disableTransitionOnChange
       >
         {children}
+        <Toaster />
       </ThemeProvider>
     </Provider>
   );

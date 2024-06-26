@@ -23,8 +23,9 @@ export function SiteHeader() {
   const pathname = usePathname(); // Use useRouter to get the current pathname
   const isEventPath = pathname.startsWith("/event");
   const isDashboardPath = pathname.startsWith("/dashboard");
+  const isAuthPath = pathname.startsWith("/(auth))");
 
-  if (isDashboardPath) {
+  if (isDashboardPath || isAuthPath) {
     return null;
   }
   return (

@@ -29,8 +29,9 @@ const navigation = {
 const SiteFooter = () => {
   const pathname = usePathname();
   const isDashboardPath = pathname.startsWith("/dashboard");
+  const isAuthPath = pathname.startsWith("/(auth))");
 
-  if (isDashboardPath) {
+  if (isDashboardPath || isAuthPath) {
     return null;
   }
   return (
