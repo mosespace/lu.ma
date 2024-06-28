@@ -24,6 +24,11 @@ export interface ICategory {
   color: string;
   image: string;
 }
+export interface IDBCategory {
+  name: string;
+  image: string;
+  userId: string;
+}
 
 export interface IService {
   id: string;
