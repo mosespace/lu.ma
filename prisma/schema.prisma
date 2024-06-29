@@ -14,29 +14,56 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
   company       String?
-  role          UserRole  @default(ATTENDEE)
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
-  categories    Category[] 
+  role          UserRole   @default(ATTENDEE)
+  createdAt     DateTime   @default(now()) @map(name: "created_at")
+  updatedAt     DateTime   @default(now()) @map(name: "updated_at")
+  categories    Category[]
+  events        Event[]
   accounts      Account[]
   sessions      Session[]
 }
 
 model Category {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  image     String
-  userId    String   @db.ObjectId
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)  
-  // events    Event[]  @relation("CategoryEvents", onDelete: Cascade)
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  image  String
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
+  events    Event[]
+}
+
+model Event {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  title           String
+  categoryId      String   @db.ObjectId
+  maxParticipants String
+  eventType       String
+  ticketType      String
+  image           String   @default("/placeholder.svg")
+  country         String
+  state           String
+  address_one     String
+  address_two     String
+  email           String
+  contact         String
+  content         String
+  tags            String[]
+  dateRange       DateTime
+  location        String
+  category        Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now()) @map(name: "created_at")
+  updatedAt       DateTime @default(now()) @map(name: "updated_at")
+  User            User?    @relation(fields: [userId], references: [id])
+  userId          String?  @db.ObjectId
 }
 
 model Account {
