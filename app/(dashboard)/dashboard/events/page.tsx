@@ -66,7 +66,7 @@ export default function DashboardPage() {
         <DashboardBreadcrumb />
 
         <Link
-          href='/dashboard/users/new'
+          href='/dashboard/events/new'
           className='text-xs flex bg-primary text-white items-center px-4 py-2 rounded-md md:text-sm'
         >
           <Plus className='mr-2 h-4 w-4' /> Add New

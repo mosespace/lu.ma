@@ -21,7 +21,11 @@ export async function createCategory({ data }: { data: IDBCategory }) {
 
 export async function getAllCategories() {
   try {
-    const categories = await db.category.findMany({});
+    const categories = await db.category.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
     // console.log(`Categories fetched successfully: ${categories}`);
     return categories;
   } catch (error: any) {

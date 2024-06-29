@@ -44,7 +44,7 @@ model Category {
 model Event {
   id              String   @id @default(auto()) @map("_id") @db.ObjectId
   title           String
-  categoryId      String   @db.ObjectId
+  categoryIds      String[]   @db.ObjectId
   maxParticipants String
   eventType       String
   ticketType      String
@@ -53,13 +53,15 @@ model Event {
   state           String
   address_one     String
   address_two     String
+  link            String?
+  ticketPrice     String?
   email           String
   contact         String
   content         String
   tags            String[]
   dateRange       DateTime
   location        String
-  category        Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category        Category @relation(fields: [categoryIds], references: [id], onDelete: Cascade)
   createdAt       DateTime @default(now()) @map(name: "created_at")
   updatedAt       DateTime @default(now()) @map(name: "updated_at")
   User            User?    @relation(fields: [userId], references: [id])
