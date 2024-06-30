@@ -16,6 +16,7 @@ export interface EventCardProps {
   category: string;
   when: string;
   view?: string;
+  date?: Date;
 }
 
 export interface ICategory {
