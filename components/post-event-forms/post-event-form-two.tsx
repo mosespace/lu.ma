@@ -42,7 +42,7 @@ export function PostEventFormTwo() {
   function onSubmit(data: FormSchema) {
     data.tel = phoneNumber;
 
-    console.log(data);
+    // console.log(data);
 
     dispatch(updateFormData(data));
 
