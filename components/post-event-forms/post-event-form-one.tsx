@@ -6,13 +6,14 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ProgressTracker } from "../progress";
 import CustomText from "../re-useables/custom-text";
-import { generateSlug } from "@/utils/generate-slug";
+
 import { useDispatch, useSelector } from "react-redux";
 import ImageUploader from "@/components/image-uploader";
 import { getAllCategories } from "@/actions/categories";
 import { FancyMultiSelect } from "@/components/fancy-multi-select";
 import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
 import ShadSelectInput from "@/components/select-input";
+import { generateSlug } from "@/utils/generate-slug";
 
 interface FormSchema {
   name: string;

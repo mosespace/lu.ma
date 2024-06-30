@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Tag, TagInput } from "emblor";
 import FooterBtns from "./footer_btns";
@@ -10,27 +10,29 @@ import { useAppSelector } from "@/store/hooks/hooks";
 import { Controller, useForm } from "react-hook-form";
 import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
 import { CustomTextArea } from "../re-useables/custom-text-area";
+import { generateShortId } from "@/utils/generate-short-id";
 
 interface FormSchema {
   description: string;
   tags: { id: string; text: string }[];
 }
 
-const defaultTags: { id: string; text: string }[] = [
-  { id: "sports", text: "Sports" },
-  { id: "programming", text: "Programming" },
-  { id: "travel", text: "Travel" },
-  { id: "music", text: "Music" },
-  { id: "food", text: "Food" },
+const createDefaultTags = () => [
+  { id: generateShortId(), text: "Sports" },
+  { id: generateShortId(), text: "Software Development" },
+  { id: generateShortId(), text: "Travel" },
+  { id: generateShortId(), text: "Party" },
 ];
 
 export function PostEventFormThree() {
-  const [tags, setTags] = useState(defaultTags);
+  const formData = useAppSelector((state: any) => state.creatingEvent.formData);
+  const initialTags =
+    formData.tags && formData.tags.length ? formData.tags : createDefaultTags();
+  const [tags, setTags] = useState(initialTags);
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
 
   const step = useSelector((state: any) => state.creatingEvent.step);
   const dispatch = useDispatch();
-  const formData = useAppSelector((state: any) => state.creatingEvent.formData);
 
   const {
     register,
@@ -40,14 +42,25 @@ export function PostEventFormThree() {
     formState: { errors },
   } = useForm<FormSchema>({
     defaultValues: {
-      ...formData,
-      tags: formData.tags || defaultTags,
+      description: formData.description || "",
+      tags: initialTags,
     },
   });
 
+  useEffect(() => {
+    if (formData.tags && formData.tags.length) {
+      setTags(formData.tags);
+      setValue("tags", formData.tags);
+    }
+  }, [formData, setValue]);
+
   async function onSubmit(data: FormSchema) {
-    data.tags = tags;
-    // console.log(`Form 3 Data: ${JSON.stringify(data, null, 2)}`);
+    const tagsArray = tags.map((tag: any) => ({
+      id: generateShortId(),
+      text: tag.text,
+    }));
+    data.tags = tagsArray;
+    console.log(data);
 
     dispatch(updateFormData(data));
     dispatch(setCurrentStep(step + 1));
@@ -85,6 +98,7 @@ export function PostEventFormThree() {
                   <Controller
                     name='tags'
                     control={control}
+                    defaultValue={initialTags} // Ensure the defaultValue is set for the Controller
                     render={({ field }) => (
                       <TagInput
                         {...field}
