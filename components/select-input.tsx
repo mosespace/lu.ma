@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import {
   Select,
   SelectContent,
@@ -9,60 +8,52 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useForm } from "react-hook-form"; // Import useForm from react-hook-form
 
-type SelectInputProps = {
-  label: string;
-  optionTitle: string;
-  className?: string;
-  options: SelectOption[];
-  selectedOption: SelectOption | null;
-  setSelectedOption: (option: SelectOption | null) => void;
-};
-
-export type SelectOption = {
+type Option = {
   value: string;
   label: string;
 };
 
 export default function ShadSelectInput({
   label,
+  optionsArray,
+  register,
+  name,
+  selected,
+  setSelected,
   className = "sm:col-span-2",
-  optionTitle,
-  options = [],
-  selectedOption,
-  setSelectedOption,
-}: SelectInputProps) {
-  const handleValueChange = (value: string) => {
-    const selectedOption =
-      options.find((option) => option.value === value) || null;
-    setSelectedOption(selectedOption);
-  };
-
+}: {
+  label: string;
+  optionsArray: Option[];
+  register: any;
+  name: string;
+  selected: string;
+  setSelected: any;
+  className?: string; // make className optional
+}) {
   return (
     <div className={className}>
-      <label
-        htmlFor={label}
-        className='block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50 mb-2'
+      <h2 className='mb-2'>{label}</h2>
+      <Select
+        defaultValue={selected}
+        onValueChange={(item) => setSelected(item)}
       >
-        {label}
-      </label>
-      <div className='mt-2'>
-        <Select onValueChange={handleValueChange}>
-          <SelectTrigger className='w-full'>
-            <SelectValue placeholder={`${optionTitle}`} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>{optionTitle}</SelectLabel>
-              {options.map((item) => (
-                <SelectItem key={item.value} value={item.value}>
+        <SelectTrigger className={className}>
+          <SelectValue placeholder='Select...' />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {optionsArray.map((item, i: number) => {
+              return (
+                <SelectItem key={i} value={item.value}>
                   {item.label}
                 </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
+              );
+            })}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
     </div>
   );
 }

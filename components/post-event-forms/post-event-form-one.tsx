@@ -22,6 +22,7 @@ interface FormSchema {
   ticketType: string;
   photo: string;
   link?: string;
+  ticketPrice?: string;
   categoryIds: string[]; // Ensure categories is an array of strings
 }
 
@@ -53,10 +54,13 @@ export function PostEventFormOne() {
     (state: any) => state.creatingEvent.formData
   );
 
+  const initialEventType = formData?.eventType || "";
+  const initialTicketType = formData?.ticketType || "";
   const [categories, setCategories] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<any[]>([]);
-  const [selectedEventType, setSelectedEventType] = useState<any>();
-  const [selectedTicketType, setSelectedTicketType] = useState<any>();
+  const [selectedEventType, setSelectedEventType] = useState(initialEventType);
+  const [selectedTicketType, setSelectedTicketType] =
+    useState(initialTicketType);
   const [imageUrl, setImageUrl] = useState<string>("");
 
   const step = useSelector((state: any) => state.creatingEvent.step);
@@ -69,11 +73,11 @@ export function PostEventFormOne() {
     defaultValues: {
       ...formData,
       categoryIds: formData.categoryIds || [],
-      eventType: formData?.ticketType,
+      eventType: formData?.eventType,
+      ticketType: formData?.ticketType,
     },
   });
 
-  // console.log(formData?.eventType);
   useEffect(() => {
     async function fetchCategories() {
       const rawCategories = await getAllCategories();
@@ -93,35 +97,35 @@ export function PostEventFormOne() {
       }
     }
 
-    if (formData?.eventType) {
-      const selected_event_type = event_type.find(
-        (type) => type.value === formData.eventType
-      );
-      setSelectedEventType(selected_event_type);
-    }
-
-    if (formData?.ticketType) {
-      const ticketType = ticket_type.find(
-        (type) => type.value === formData.ticketType
-      );
-      setSelectedTicketType(ticketType);
-    }
-
     fetchCategories();
-  }, [formData]);
+  }, [formData.categoryIds]);
 
   async function onSubmit(data: FormSchema) {
     const slug = generateSlug(data.name as string);
     data.slug = slug;
     data.photo = imageUrl;
-    data.eventType = selectedEventType?.value || "";
-    data.ticketType = selectedTicketType?.value || "";
+    data.eventType = selectedEventType;
+    data.ticketType = selectedTicketType;
+
+    // adjusting these basing on conditions
+    if (data.eventType === "physical") {
+      data.link = "";
+    } else {
+      data.link;
+    }
+
+    if (data.ticketType === "free") {
+      data.ticketPrice = "";
+    } else {
+      data.ticketPrice;
+    }
+
     data.categoryIds = selectedCategory.map((category: any) => category.value);
 
     dispatch(updateFormData(data));
     dispatch(setCurrentStep(step + 1));
 
-    console.log(data);
+    // console.log(data);
   }
 
   return (
@@ -168,18 +172,20 @@ export function PostEventFormOne() {
             <div className='flex gap-3'>
               <ShadSelectInput
                 label='Event Type'
-                optionTitle='Choose Event Type'
-                options={event_type}
-                selectedOption={selectedEventType}
-                setSelectedOption={setSelectedEventType}
+                optionsArray={event_type}
+                register={register}
+                name='eventType'
+                selected={selectedEventType}
+                setSelected={setSelectedEventType}
                 className='w-full'
               />
               <ShadSelectInput
                 label='Select Ticket Type'
-                optionTitle='Choose Ticket Type'
-                options={ticket_type}
-                selectedOption={selectedTicketType}
-                setSelectedOption={setSelectedTicketType}
+                optionsArray={ticket_type}
+                register={register}
+                name='ticketType'
+                selected={selectedTicketType}
+                setSelected={setSelectedTicketType}
                 className='w-full'
               />
             </div>
@@ -193,7 +199,7 @@ export function PostEventFormOne() {
               endpoint='eventImageUploader'
             />
             <div className='flex flex-col gap-3'>
-              {(selectedEventType?.value === "online" ||
+              {(selectedEventType === "online" ||
                 formData?.eventType === "online") && (
                 <CustomText
                   register={register}
@@ -205,7 +211,7 @@ export function PostEventFormOne() {
                 />
               )}
 
-              {(selectedTicketType?.value === "paid" ||
+              {(selectedTicketType === "paid" ||
                 formData?.ticketType === "paid") && (
                 <CustomText
                   register={register}
