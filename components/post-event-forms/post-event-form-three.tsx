@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
 import { CustomTextArea } from "../re-useables/custom-text-area";
 import { generateShortId } from "@/utils/generate-short-id";
+import NovelEditor from "./novel-editor";
 
 interface FormSchema {
   description: string;
@@ -30,6 +31,7 @@ export function PostEventFormThree() {
     formData.tags && formData.tags.length ? formData.tags : createDefaultTags();
   const [tags, setTags] = useState(initialTags);
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
+  const [content, setContent] = useState<string | undefined>();
 
   const step = useSelector((state: any) => state.creatingEvent.step);
   const dispatch = useDispatch();
@@ -59,8 +61,11 @@ export function PostEventFormThree() {
       id: generateShortId(),
       text: tag.text,
     }));
+
     data.tags = tagsArray;
-    console.log(data);
+    data.description = content as string;
+
+    // console.log(data);
 
     dispatch(updateFormData(data));
     dispatch(setCurrentStep(step + 1));
@@ -81,13 +86,19 @@ export function PostEventFormThree() {
         <div className='w-full gap-4 items-start flex'>
           <div className='w-full h-full space-y-8'>
             <div className='space-y-2'>
-              <CustomTextArea
+              {/* <CustomTextArea
                 row='15'
                 label='Full Description'
                 register={register}
                 name='description'
                 errors={errors}
                 placeholder='Tell us more information about the event'
+              /> */}
+
+              <NovelEditor
+                content={content}
+                setContent={setContent}
+                title='Detailed Description'
               />
             </div>
 

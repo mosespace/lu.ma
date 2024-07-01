@@ -58,7 +58,7 @@ model Event {
   email           String
   contact         String
   content         String
-  tags            Tag[] 
+  tags            Tag[]
   dateRange       DateTime
   location        String
   category        Category @relation(fields: [categoryIds], references: [id], onDelete: Cascade)
