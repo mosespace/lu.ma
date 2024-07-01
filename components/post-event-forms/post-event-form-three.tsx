@@ -2,16 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
-import { Tag, TagInput } from "emblor";
+import { TagInput } from "emblor";
 import FooterBtns from "./footer_btns";
 import { useSelector, useDispatch } from "react-redux";
 import { ProgressTracker } from "../progress";
 import { useAppSelector } from "@/store/hooks/hooks";
 import { Controller, useForm } from "react-hook-form";
 import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
-import { CustomTextArea } from "../re-useables/custom-text-area";
 import { generateShortId } from "@/utils/generate-short-id";
-import NovelEditor from "./novel-editor";
+import Editor from "../editor/advanced-editor";
+import { JSONContent } from "novel";
+import { defaultValue } from "@/app/default";
 
 interface FormSchema {
   description: string;
@@ -20,7 +21,6 @@ interface FormSchema {
 
 const createDefaultTags = () => [
   { id: generateShortId(), text: "Sports" },
-  { id: generateShortId(), text: "Software Development" },
   { id: generateShortId(), text: "Travel" },
   { id: generateShortId(), text: "Party" },
 ];
@@ -31,7 +31,9 @@ export function PostEventFormThree() {
     formData.tags && formData.tags.length ? formData.tags : createDefaultTags();
   const [tags, setTags] = useState(initialTags);
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
-  const [content, setContent] = useState<string | undefined>();
+  const [content, setContent] = useState<JSONContent>(
+    formData.description || defaultValue
+  );
 
   const step = useSelector((state: any) => state.creatingEvent.step);
   const dispatch = useDispatch();
@@ -44,7 +46,7 @@ export function PostEventFormThree() {
     formState: { errors },
   } = useForm<FormSchema>({
     defaultValues: {
-      description: formData.description || "",
+      description: formData.description || defaultValue,
       tags: initialTags,
     },
   });
@@ -63,9 +65,9 @@ export function PostEventFormThree() {
     }));
 
     data.tags = tagsArray;
-    data.description = content as string;
+    data.description = content as any;
 
-    // console.log(data);
+    console.log(data);
 
     dispatch(updateFormData(data));
     dispatch(setCurrentStep(step + 1));
@@ -95,11 +97,7 @@ export function PostEventFormThree() {
                 placeholder='Tell us more information about the event'
               /> */}
 
-              <NovelEditor
-                content={content}
-                setContent={setContent}
-                title='Detailed Description'
-              />
+              <Editor initialValue={content} onChange={setContent} />
             </div>
 
             <div>
