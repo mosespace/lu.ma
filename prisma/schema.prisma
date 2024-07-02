@@ -59,7 +59,8 @@ model Event {
   contact         String
   content         String
   tags            Tag[]
-  dateRange       DateTime
+  startDate       DateTime
+  endDate         DateTime
   location        String
   category        Category @relation(fields: [categoryIds], references: [id], onDelete: Cascade)
   createdAt       DateTime @default(now()) @map(name: "created_at")

@@ -8,15 +8,21 @@ import { DateRangePicker } from "../date-picker";
 import { useAppSelector } from "@/store/hooks/hooks";
 import { Controller, useForm } from "react-hook-form";
 import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
+import MultipleImageUpload from "./multiple-image-upload";
+import { useState } from "react";
+import { Label } from "../ui/label";
 
 interface FormSchema {
   dateRange: {
     from: string;
     to: string;
   };
+  endDate: string;
+  startDate: string;
 }
 
 export function PostEventFormFour() {
+  const [posters, setPosters] = useState<any>();
   const step = useSelector((state: any) => state.creatingEvent.step);
 
   const dispatch = useDispatch();
@@ -35,7 +41,10 @@ export function PostEventFormFour() {
   });
 
   const onSubmit = (data: FormSchema) => {
-    // console.log(`Form 4 Data: ${JSON.stringify(data, null, 2)}`);
+    data.startDate = data.dateRange.range.from as any;
+    data.endDate = data.dateRange.range.to as any;
+    console.log(data);
+
     dispatch(updateFormData(data));
     dispatch(setCurrentStep(step + 1));
   };
@@ -52,23 +61,35 @@ export function PostEventFormFour() {
         <ProgressTracker />
       </div>
       <div className='flex bg-white max-w-4xl w-full mx-auto mt-4 shadow-lg rounded-lg p-12'>
-        <div className='w-full relative'>
-          <Controller
-            name='dateRange'
-            control={control}
-            render={({ field }) => (
-              <DateRangePicker
-                onUpdate={(values) => {
-                  setValue("dateRange", values);
-                  field.onChange(values);
-                }}
-                initialDateFrom={formData.dateRange?.from || "2023-01-01"}
-                initialDateTo={formData.dateRange?.to || "2023-12-31"}
-                align='start'
-                locale='en-GB'
-                showCompare={false}
-              />
-            )}
+        <div className='w-full space-y-8 relative'>
+          <div className='space-y-2'>
+            <Label>Select Date Range For The Events</Label>
+
+            <Controller
+              name='dateRange'
+              control={control}
+              render={({ field }) => (
+                <DateRangePicker
+                  onUpdate={(values) => {
+                    setValue("dateRange", values);
+                    field.onChange(values);
+                  }}
+                  initialDateFrom={formData.dateRange?.from || "2023-01-01"}
+                  initialDateTo={formData.dateRange?.to || "2023-12-31"}
+                  align='start'
+                  locale='en-GB'
+                  showCompare={false}
+                />
+              )}
+            />
+          </div>
+
+          <MultipleImageUpload
+            label='Upload poster images (Optional)'
+            images={posters}
+            setImages={setPosters}
+            className='w-full'
+            endpoint='multipleImageUpload'
           />
         </div>
       </div>

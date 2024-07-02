@@ -67,7 +67,7 @@ export function PostEventFormThree() {
     data.tags = tagsArray;
     data.description = content as any;
 
-    console.log(data);
+    // console.log(data);
 
     dispatch(updateFormData(data));
     dispatch(setCurrentStep(step + 1));

@@ -19,10 +19,8 @@ interface FormState {
     link?: string;
     ticketPrice?: string;
     description?: string;
-    dateRange?: {
-      from: string;
-      to: string;
-    };
+    startDate: Date;
+    endDate: Date;
   };
 }
 
@@ -45,7 +43,8 @@ const initialState: FormState = {
     email: "",
     tel: "",
     description: "",
-    dateRange: { from: "", to: "" },
+    startDate: new Date(),
+    endDate: new Date(),
   },
 };
 

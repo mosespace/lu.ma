@@ -291,3 +291,8 @@
   padding: 0 8px;
   width: 2.8em;
 }
+
+/* applied to the upload indicator when uploading */
+.custom-class > *[data-ut-element="button"][data-state="uploading"]::after {
+  background-color: rgb(234 88 12 / 1);
+}
