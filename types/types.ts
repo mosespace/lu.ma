@@ -16,6 +16,7 @@ export interface EventCardProps {
   category: string;
   when: string;
   view?: string;
+  date?: Date;
 }
 
 export interface ICategory {
@@ -23,6 +24,11 @@ export interface ICategory {
   title: string;
   color: string;
   image: string;
+}
+export interface IDBCategory {
+  name: string;
+  image: string;
+  userId: string;
 }
 
 export interface IService {

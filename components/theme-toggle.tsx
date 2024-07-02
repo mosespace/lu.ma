@@ -12,7 +12,7 @@ export function ThemeToggle() {
 
   // Function to get the background color based on the current theme
   const getBackgroundColor = (buttonTheme: any) => {
-    return theme === buttonTheme ? "bg-orangeB/80 text-white" : ""; // Adjust the background color as needed
+    return theme === buttonTheme ? "bg-primary text-white" : ""; // Adjust the background color as needed
   };
 
   return (

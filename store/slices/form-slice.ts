@@ -8,7 +8,7 @@ interface FormState {
     eventType?: string;
     ticketType?: string;
     photo?: string;
-    categories?: string[];
+    categoryIds?: string[];
     tags?: { id: string; text: string }[];
     country?: string;
     state?: string;
@@ -16,11 +16,11 @@ interface FormState {
     address2?: string;
     email?: string;
     tel?: string;
+    link?: string;
+    ticketPrice?: string;
     description?: string;
-    dateRange?: {
-      from: string;
-      to: string;
-    };
+    startDate: Date;
+    endDate: Date;
   };
 }
 
@@ -32,16 +32,19 @@ const initialState: FormState = {
     eventType: "",
     ticketType: "",
     photo: "",
-    categories: [],
+    categoryIds: [],
     tags: [],
     country: "",
+    link: "",
+    ticketPrice: "",
     state: "",
     address1: "",
     address2: "",
     email: "",
     tel: "",
     description: "",
-    dateRange: { from: "", to: "" },
+    startDate: new Date(),
+    endDate: new Date(),
   },
 };
 

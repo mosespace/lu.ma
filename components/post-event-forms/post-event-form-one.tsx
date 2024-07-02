@@ -1,18 +1,19 @@
 "use client";
 
+import { Label } from "../ui/label";
+import FooterBtns from "./footer_btns";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { ProgressTracker } from "../progress";
+import CustomText from "../re-useables/custom-text";
+
 import { useDispatch, useSelector } from "react-redux";
 import ImageUploader from "@/components/image-uploader";
-import ShadSelectInput, { SelectOption } from "@/components/select-input";
+import { getAllCategories } from "@/actions/categories";
 import { FancyMultiSelect } from "@/components/fancy-multi-select";
-import { generateSlug } from "@/utils/generate-slug";
 import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
-import { ProgressTracker } from "../progress";
-import FooterBtns from "./footer_btns";
-import { Button } from "../ui/button";
-import CustomText from "../re-useables/custom-text";
-import { Label } from "../ui/label";
+import ShadSelectInput from "@/components/select-input";
+import { generateSlug } from "@/utils/generate-slug";
 
 interface FormSchema {
   name: string;
@@ -21,6 +22,9 @@ interface FormSchema {
   eventType: string;
   ticketType: string;
   photo: string;
+  link?: string;
+  ticketPrice?: string;
+  categoryIds: string[]; // Ensure categories is an array of strings
 }
 
 const event_type = [
@@ -45,78 +49,84 @@ const ticket_type = [
   },
 ];
 
-const categories = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-];
-
 export function PostEventFormOne() {
   const dispatch = useDispatch();
   const formData: any = useSelector(
     (state: any) => state.creatingEvent.formData
   );
 
-  const [selectedCategory, setSelectedCategory] = useState<any[]>([
-    categories[1],
-  ]);
-  const [selectedEventType, setSelectedEventType] =
-    useState<SelectOption | null>(null);
+  const initialEventType = formData?.eventType || "";
+  const initialTicketType = formData?.ticketType || "";
+  const [categories, setCategories] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<any[]>([]);
+  const [selectedEventType, setSelectedEventType] = useState(initialEventType);
   const [selectedTicketType, setSelectedTicketType] =
-    useState<SelectOption | null>(null);
+    useState(initialTicketType);
   const [imageUrl, setImageUrl] = useState<string>("");
 
   const step = useSelector((state: any) => state.creatingEvent.step);
 
   const {
     register,
-    reset,
-    watch,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
       ...formData,
+      categoryIds: formData.categoryIds || [],
+      eventType: formData?.eventType,
+      ticketType: formData?.ticketType,
     },
   });
 
   useEffect(() => {
-    if (formData?.eventType) {
-      const eventType = event_type.find(
-        (type) => type.value === formData.eventType
-      );
-      setSelectedEventType(eventType || null);
+    async function fetchCategories() {
+      const rawCategories = await getAllCategories();
+      if (rawCategories) {
+        const mappedCategories = rawCategories.map((category: any) => ({
+          value: category.id,
+          label: category.name,
+        }));
+        setCategories(mappedCategories);
+
+        if (formData?.categoryIds) {
+          const selected_categories = mappedCategories.filter((category: any) =>
+            formData.categoryIds.includes(category.value)
+          );
+          setSelectedCategory(selected_categories);
+        }
+      }
     }
 
-    if (formData?.ticketType) {
-      const ticketType = ticket_type.find(
-        (type) => type.value === formData.ticketType
-      );
-      setSelectedTicketType(ticketType || null);
-    }
-
-    if (formData?.categories) {
-      const selected_categories: any = categories.find(
-        (category: any) => category.value === category.ticketType
-      );
-      setSelectedTicketType(selected_categories || null);
-    }
-  }, [formData]);
+    fetchCategories();
+  }, [formData.categoryIds]);
 
   async function onSubmit(data: FormSchema) {
     const slug = generateSlug(data.name as string);
     data.slug = slug;
     data.photo = imageUrl;
-    data.eventType = selectedEventType?.value || "";
-    data.ticketType = selectedTicketType?.value || "";
+    data.eventType = selectedEventType;
+    data.ticketType = selectedTicketType;
+
+    // adjusting these basing on conditions
+    if (data.eventType === "physical") {
+      data.link = "";
+    } else {
+      data.link;
+    }
+
+    if (data.ticketType === "free") {
+      data.ticketPrice = "";
+    } else {
+      data.ticketPrice;
+    }
+
+    data.categoryIds = selectedCategory.map((category: any) => category.value);
 
     dispatch(updateFormData(data));
     dispatch(setCurrentStep(step + 1));
+
+    // console.log(data);
   }
 
   return (
@@ -163,30 +173,57 @@ export function PostEventFormOne() {
             <div className='flex gap-3'>
               <ShadSelectInput
                 label='Event Type'
-                optionTitle='Choose Event Type'
-                options={event_type}
-                selectedOption={selectedEventType}
-                setSelectedOption={setSelectedEventType}
+                optionsArray={event_type}
+                register={register}
+                name='eventType'
+                selected={selectedEventType}
+                setSelected={setSelectedEventType}
                 className='w-full'
               />
               <ShadSelectInput
                 label='Select Ticket Type'
-                optionTitle='Choose Ticket Type'
-                options={ticket_type}
-                selectedOption={selectedTicketType}
-                setSelectedOption={setSelectedTicketType}
+                optionsArray={ticket_type}
+                register={register}
+                name='ticketType'
+                selected={selectedTicketType}
+                setSelected={setSelectedTicketType}
                 className='w-full'
               />
             </div>
           </div>
 
-          <div className='w-full'>
+          <div className='flex space-y-9 justify-between flex-col w-full'>
             <ImageUploader
               label='Upload Event Image'
               imageUrl={imageUrl}
               setImageUrl={setImageUrl}
               endpoint='eventImageUploader'
             />
+            <div className='flex flex-col gap-3'>
+              {(selectedEventType === "online" ||
+                formData?.eventType === "online") && (
+                <CustomText
+                  register={register}
+                  errors={errors}
+                  name='link'
+                  type='url'
+                  label='Online Event Link'
+                  placeholder='https://meet.google.com/meeting-id'
+                />
+              )}
+
+              {(selectedTicketType === "paid" ||
+                formData?.ticketType === "paid") && (
+                <CustomText
+                  register={register}
+                  errors={errors}
+                  name='ticketPrice'
+                  type='number'
+                  label='Event Ticket Price'
+                  placeholder='$150'
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

@@ -31,8 +31,6 @@ export function PostEventFormTwo() {
 
   const {
     register,
-    reset,
-    watch,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -44,7 +42,7 @@ export function PostEventFormTwo() {
   function onSubmit(data: FormSchema) {
     data.tel = phoneNumber;
 
-    // console.log(`Form 2 Data: ${JSON.stringify(data, null, 2)}`);
+    // console.log(data);
 
     dispatch(updateFormData(data));
 
@@ -74,7 +72,7 @@ export function PostEventFormTwo() {
               register={register}
               errors={errors}
               name='country'
-              type='text'
+              type='country'
               label='Country'
               placeholder='Uganda (UG)'
             />
@@ -90,7 +88,7 @@ export function PostEventFormTwo() {
               register={register}
               errors={errors}
               name='address1'
-              type='text'
+              type='address'
               label='Address One'
               placeholder='Lugogo 4th Street'
             />
@@ -98,7 +96,7 @@ export function PostEventFormTwo() {
               register={register}
               errors={errors}
               name='address2'
-              type='text'
+              type='address'
               label='Address Two'
               placeholder='This field is optional'
             />
