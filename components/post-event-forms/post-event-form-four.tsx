@@ -14,8 +14,10 @@ import { Label } from "../ui/label";
 
 interface FormSchema {
   dateRange: {
-    from: string;
-    to: string;
+    range: {
+      from: string;
+      to: string;
+    };
   };
   endDate: string;
   startDate: string;
@@ -41,11 +43,11 @@ export function PostEventFormFour() {
   });
 
   const onSubmit = (data: FormSchema) => {
-    data.startDate = data.dateRange.range.from as any;
-    data.endDate = data.dateRange.range.to as any;
-    console.log(data);
+    data.startDate = data.dateRange?.range.from as any;
+    data.endDate = data.dateRange?.range.to as any;
+    // console.log(data);
 
-    dispatch(updateFormData(data));
+    dispatch(updateFormData(data as any));
     dispatch(setCurrentStep(step + 1));
   };
 
