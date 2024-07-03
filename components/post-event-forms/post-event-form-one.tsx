@@ -24,7 +24,7 @@ interface FormSchema {
   photo: string;
   link?: string;
   ticketPrice?: string;
-  categoryIds: string[]; // Ensure categories is an array of strings
+  categoryId: string;
 }
 
 const event_type = [
@@ -57,8 +57,9 @@ export function PostEventFormOne() {
 
   const initialEventType = formData?.eventType || "";
   const initialTicketType = formData?.ticketType || "";
+  const initialCategoryId = formData?.categoryId || "";
   const [categories, setCategories] = useState<any[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState(initialCategoryId);
   const [selectedEventType, setSelectedEventType] = useState(initialEventType);
   const [selectedTicketType, setSelectedTicketType] =
     useState(initialTicketType);
@@ -73,7 +74,7 @@ export function PostEventFormOne() {
   } = useForm({
     defaultValues: {
       ...formData,
-      categoryIds: formData.categoryIds || [],
+      categoryId: formData.categoryId || [],
       eventType: formData?.eventType,
       ticketType: formData?.ticketType,
     },
@@ -89,9 +90,9 @@ export function PostEventFormOne() {
         }));
         setCategories(mappedCategories);
 
-        if (formData?.categoryIds) {
+        if (formData?.categoryId) {
           const selected_categories = mappedCategories.filter((category: any) =>
-            formData.categoryIds.includes(category.value)
+            formData.categoryId.includes(category.value)
           );
           setSelectedCategory(selected_categories);
         }
@@ -99,7 +100,7 @@ export function PostEventFormOne() {
     }
 
     fetchCategories();
-  }, [formData.categoryIds]);
+  }, [formData.categoryId]);
 
   async function onSubmit(data: FormSchema) {
     const slug = generateSlug(data.name as string);
@@ -121,7 +122,7 @@ export function PostEventFormOne() {
       data.ticketPrice;
     }
 
-    data.categoryIds = selectedCategory.map((category: any) => category.value);
+    data.categoryId = selectedCategory;
 
     dispatch(updateFormData(data));
     dispatch(setCurrentStep(step + 1));
@@ -153,11 +154,20 @@ export function PostEventFormOne() {
             />
 
             <div className='flex flex-col gap-3'>
-              <Label>Choose Categories</Label>
-              <FancyMultiSelect
+              {/* <Label>Choose Category</Label> */}
+              {/* <FancyMultiSelect
                 options={categories}
                 selectedOption={selectedCategory}
                 setSelectedOption={setSelectedCategory}
+              /> */}
+              <ShadSelectInput
+                name={"categoryId"}
+                label={"Choose Category"}
+                optionsArray={categories}
+                register={register}
+                selected={selectedCategory}
+                setSelected={setSelectedCategory}
+                className='w-full'
               />
             </div>
 
@@ -200,6 +210,17 @@ export function PostEventFormOne() {
               endpoint='eventImageUploader'
             />
             <div className='flex flex-col gap-3'>
+              {(selectedEventType === "physical" ||
+                formData?.eventType === "physical") && (
+                <CustomText
+                  register={register}
+                  errors={errors}
+                  name='location'
+                  type='location'
+                  label='Physical Event Location'
+                  placeholder='MOTIV Bugolobi'
+                />
+              )}
               {(selectedEventType === "online" ||
                 formData?.eventType === "online") && (
                 <CustomText

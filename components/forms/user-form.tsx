@@ -98,9 +98,7 @@ export const UserForm: React.FC<UserFormProps> = ({ initialData, roles }) => {
       router.refresh();
       router.push(`/dashboard/users`);
       toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
+        title: "Sucessfully Updated user",
       });
     } catch (error: any) {
       toast({

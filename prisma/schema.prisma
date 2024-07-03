@@ -42,38 +42,41 @@ model Category {
 }
 
 model Event {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  title           String
-  categoryIds     String[] @db.ObjectId
-  maxParticipants String
-  eventType       String
-  ticketType      String
-  image           String   @default("/placeholder.svg")
-  country         String
-  state           String
-  address_one     String
-  address_two     String
-  link            String?
-  ticketPrice     String?
-  email           String
-  contact         String
-  content         String
-  tags            Tag[]
-  startDate       DateTime
-  endDate         DateTime
-  location        String
-  category        Category @relation(fields: [categoryIds], references: [id], onDelete: Cascade)
-  createdAt       DateTime @default(now()) @map(name: "created_at")
-  updatedAt       DateTime @default(now()) @map(name: "updated_at")
-  User            User?    @relation(fields: [userId], references: [id])
-  userId          String?  @db.ObjectId
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  slug             String   @unique
+  categoryId       String   @db.ObjectId
+  maxParticipants  String
+  eventType        String
+  ticketType       String
+  image            String   @default("/placeholder.svg")
+  country          String
+  state            String
+  address_one      String
+  address_two      String?
+  link             String?
+  ticketPrice      String?
+  email            String
+  contact          String
+  content          String
+  shortDescription String
+  tags             Tag[]
+  startDate        DateTime
+  endDate          DateTime
+  location         String?
+  posters          String[]
+  category         Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt        DateTime @default(now()) @map(name: "created_at")
+  updatedAt        DateTime @default(now()) @map(name: "updated_at")
+  User             User?    @relation(fields: [userId], references: [id])
+  userId           String?  @db.ObjectId
 }
 
 model Tag {
   id      String  @id @default(auto()) @map("_id") @db.ObjectId
   text    String
-  Event   Event?  @relation(fields: [eventId], references: [id])
   eventId String? @db.ObjectId
+  Event   Event?  @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 model Account {

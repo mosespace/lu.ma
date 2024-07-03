@@ -6,7 +6,6 @@ import {
   EditorCommandItem,
   EditorCommandEmpty,
   EditorContent,
-  type JSONContent,
   EditorCommandList,
   EditorBubble,
 } from "novel";
@@ -24,8 +23,8 @@ import { uploadFn } from "./image-upload";
 const extensions = [...defaultExtensions, slashCommand];
 
 interface EditorProp {
-  initialValue?: JSONContent;
-  onChange: (value: JSONContent) => void;
+  initialValue?: any;
+  onChange: (value: any) => void;
 }
 
 const Editor = ({ initialValue, onChange }: EditorProp) => {
@@ -47,7 +46,8 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
           handleDrop: (view, event, _slice, moved) =>
             handleImageDrop(view, event, moved, uploadFn),
           attributes: {
-            class: `prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full`,
+            class:
+              "prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
           },
         }}
         onUpdate={({ editor }) => {
@@ -68,7 +68,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
                 key={item.title}
               >
                 <div className='flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background'>
-                  {item.icon}
+                  {React.isValidElement(item.icon) ? item.icon : null}
                 </div>
                 <div>
                   <p className='font-medium'>{item.title}</p>
@@ -90,7 +90,6 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
           <Separator orientation='vertical' />
           <NodeSelector open={openNode} onOpenChange={setOpenNode} />
           <Separator orientation='vertical' />
-
           <LinkSelector open={openLink} onOpenChange={setOpenLink} />
           <Separator orientation='vertical' />
           <TextButtons />

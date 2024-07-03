@@ -11,6 +11,7 @@ import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
 import MultipleImageUpload from "./multiple-image-upload";
 import { useState } from "react";
 import { Label } from "../ui/label";
+import { createEvent } from "@/actions/events";
 
 interface FormSchema {
   dateRange: {
@@ -19,6 +20,7 @@ interface FormSchema {
       to: string;
     };
   };
+  posters: string[];
   endDate: string;
   startDate: string;
 }
@@ -42,14 +44,14 @@ export function PostEventFormFour() {
     },
   });
 
-  const onSubmit = (data: FormSchema) => {
+  async function onSubmit(data: FormSchema) {
+    data.posters = posters;
     data.startDate = data.dateRange?.range.from as any;
     data.endDate = data.dateRange?.range.to as any;
     // console.log(data);
 
     dispatch(updateFormData(data as any));
-    dispatch(setCurrentStep(step + 1));
-  };
+  }
 
   return (
     <form

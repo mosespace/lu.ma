@@ -4,11 +4,10 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useForm } from "react-hook-form"; // Import useForm from react-hook-form
+import { Label } from "./ui/label";
 
 type Option = {
   value: string;
@@ -34,7 +33,7 @@ export default function ShadSelectInput({
 }) {
   return (
     <div className={className}>
-      <h2 className='mb-2'>{label}</h2>
+      <Label className='mb-2'>{label}</Label>
       <Select
         defaultValue={selected}
         onValueChange={(item) => setSelected(item)}

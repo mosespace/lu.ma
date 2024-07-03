@@ -11,11 +11,12 @@ import { Controller, useForm } from "react-hook-form";
 import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
 import { generateShortId } from "@/utils/generate-short-id";
 import Editor from "../editor/advanced-editor";
-import { JSONContent } from "novel";
 import { defaultValue } from "@/app/default";
+import { CustomTextArea } from "../re-useables/custom-text-area";
 
 interface FormSchema {
   description: string;
+  shortDescription: string;
   tags: { id: string; text: string }[];
 }
 
@@ -31,7 +32,7 @@ export function PostEventFormThree() {
     formData.tags && formData.tags.length ? formData.tags : createDefaultTags();
   const [tags, setTags] = useState(initialTags);
   const [activeTagIndex, setActiveTagIndex] = useState<number | null>(null);
-  const [content, setContent] = useState<JSONContent>(
+  const [content, setContent] = useState<any>(
     formData.description || defaultValue
   );
 
@@ -48,6 +49,7 @@ export function PostEventFormThree() {
     defaultValues: {
       description: formData.description || defaultValue,
       tags: initialTags,
+      shortDescription: formData.shortDescription,
     },
   });
 
@@ -88,16 +90,19 @@ export function PostEventFormThree() {
         <div className='w-full gap-4 items-start flex'>
           <div className='w-full h-full space-y-8'>
             <div className='space-y-2'>
-              {/* <CustomTextArea
-                row='15'
-                label='Full Description'
+              <CustomTextArea
+                row='2'
+                label='Short Description'
                 register={register}
-                name='description'
+                name='shortDescription'
                 errors={errors}
                 placeholder='Tell us more information about the event'
-              /> */}
+              />
 
-              <Editor initialValue={content} onChange={setContent} />
+              <div className='space-y-4'>
+                <Label>Full Detailed Description</Label>
+                <Editor initialValue={content} onChange={setContent} />
+              </div>
             </div>
 
             <div>
@@ -111,7 +116,7 @@ export function PostEventFormThree() {
                     render={({ field }) => (
                       <TagInput
                         {...field}
-                        placeholder='Enter a topic'
+                        placeholder='Enter a tag'
                         tags={tags}
                         className='max-w-[250px] bg-transparent'
                         setTags={(newTags: any) => {

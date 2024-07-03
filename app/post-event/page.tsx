@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
-import { PostEventFormOne } from "@/components/post-event-forms/post-event-form-one";
-import { PostEventFormTwo } from "@/components/post-event-forms/post-event-form-two";
-import { PostEventFormThree } from "@/components/post-event-forms/post-event-form-three";
-import { PostEventFormFour } from "@/components/post-event-forms/post-event-form-four";
 import { FormConfirmation } from "@/components/post-event-forms/form-confirmation";
+import { PostEventFormFour } from "@/components/post-event-forms/post-event-form-four";
+import { PostEventFormOne } from "@/components/post-event-forms/post-event-form-one";
+import { PostEventFormThree } from "@/components/post-event-forms/post-event-form-three";
+import { PostEventFormTwo } from "@/components/post-event-forms/post-event-form-two";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export default function PostEvent() {
   const step = useSelector((state: any) => state.creatingEvent.step);
@@ -17,23 +17,26 @@ export default function PostEvent() {
     if (step === 5) {
       const timer = setTimeout(() => {
         router.push("/");
-      }, 3000);
+      }, 4000);
 
       return () => clearTimeout(timer); // Cleanup the timer if the component unmounts or step changes
     }
   }, [step, router]);
 
   function renderFormByStep(step: number) {
-    if (step === 1) {
-      return <PostEventFormOne />;
-    } else if (step === 2) {
-      return <PostEventFormTwo />;
-    } else if (step === 3) {
-      return <PostEventFormThree />;
-    } else if (step === 4) {
-      return <PostEventFormFour />;
-    } else if (step === 5) {
-      return <FormConfirmation />;
+    switch (step) {
+      case 1:
+        return <PostEventFormOne />;
+      case 2:
+        return <PostEventFormTwo />;
+      case 3:
+        return <PostEventFormThree />;
+      case 4:
+        return <PostEventFormFour />;
+      case 5:
+        return <FormConfirmation />;
+      default:
+        return null;
     }
   }
 

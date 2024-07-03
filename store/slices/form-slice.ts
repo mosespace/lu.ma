@@ -1,38 +1,17 @@
+import { IEvent } from "@/types/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface FormState {
-  step: number;
-  formData: {
-    name: string;
-    maxParticipants: string;
-    eventType?: string;
-    ticketType?: string;
-    photo?: string;
-    categoryIds?: string[];
-    tags?: { id: string; text: string }[];
-    country?: string;
-    state?: string;
-    address1?: string;
-    address2?: string;
-    email?: string;
-    tel?: string;
-    link?: string;
-    ticketPrice?: string;
-    description?: string;
-    startDate: Date;
-    endDate: Date;
-  };
-}
-
-const initialState: FormState = {
+const initialState: IEvent = {
   step: 1,
   formData: {
     name: "",
+    slug: "",
     maxParticipants: "",
     eventType: "",
     ticketType: "",
     photo: "",
-    categoryIds: [],
+    posters: [],
+    categoryId: "",
     tags: [],
     country: "",
     link: "",
@@ -43,6 +22,7 @@ const initialState: FormState = {
     email: "",
     tel: "",
     description: "",
+    shortDescription: "",
     startDate: new Date(),
     endDate: new Date(),
   },
@@ -57,7 +37,7 @@ const formSlice = createSlice({
     },
     updateFormData: (
       state,
-      action: PayloadAction<Partial<FormState["formData"]>>
+      action: PayloadAction<Partial<IEvent["formData"]>>
     ) => {
       state.formData = { ...state.formData, ...action.payload };
     },
