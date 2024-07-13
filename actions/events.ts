@@ -13,8 +13,28 @@ export async function getAllEvents() {
     });
 
     // console.log(`Events fetched successfully: ${events}`);
+    return events;
   } catch (error: any) {
     console.log(`Fetching all events has failed: ${error.message}`);
+  }
+}
+
+export async function getEventBySlug({ id }: { id: string }) {
+  // console.log(id);
+  try {
+    const event = await db.event.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        category: true,
+      },
+    });
+
+    // console.log(`Event fetched successfully: ${event}`);
+    return event;
+  } catch (error: any) {
+    console.log(`Fetching an event by slug has failed: ${error.message}`);
   }
 }
 

@@ -6,6 +6,7 @@ import { Plus } from "lucide-react";
 import { EventCardProps } from "@/types/types";
 import { Heading } from "@/components/heading";
 import DashboardEventCard from "@/components/dashboard/dashboard-event-card";
+import { getAllEvents } from "@/actions/events";
 
 const events: EventCardProps[] = [
   {
@@ -59,7 +60,10 @@ const events: EventCardProps[] = [
   },
 ];
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const events = await getAllEvents();
+  // console.log(events);
+
   return (
     <ContentLayout title='Dashboard'>
       <div className='flex items-center justify-between'>
@@ -76,11 +80,11 @@ export default function DashboardPage() {
         <CardContent className='p-6'>
           <div className='flex flex-col justify-center space-y-4 min-h-[calc(100vh-56px-64px-20px-24px-56px-48px)]'>
             <Heading
-              title={`All Your Events (${events.length})`}
+              title={`All Your Events (${events?.length})`}
               description='Manage events. click on the last three dots to either make an update on a user or delete a user.'
             />
             <div className='grid grid-cols-4 justify-center gap-2'>
-              {events.map((event: any) => (
+              {events?.map((event: any) => (
                 <DashboardEventCard
                   key={event.id}
                   id={event.id}
