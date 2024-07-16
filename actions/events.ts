@@ -19,12 +19,12 @@ export async function getAllEvents() {
   }
 }
 
-export async function getEventBySlug({ id }: { id: string }) {
+export async function getEventBySlug({ eventId }: { eventId: string }) {
   // console.log(id);
   try {
     const event = await db.event.findUnique({
       where: {
-        id,
+        id: eventId,
       },
       include: {
         category: true,

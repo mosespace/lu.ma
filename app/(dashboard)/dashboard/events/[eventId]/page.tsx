@@ -1,24 +1,25 @@
 import { Card, CardContent } from "@/components/ui/card";
-import DashboardBreadcrumb from "@/components/dashboard-breadcrumb";
-import { ContentLayout } from "@/components/dashboard/content-layout";
 import Link from "next/link";
+import Map from "@/components/map";
 import { Plus } from "lucide-react";
+import Balancer from "react-wrap-balancer";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
-import Balancer from "react-wrap-balancer";
-import Map from "@/components/map";
+import DashboardBreadcrumb from "@/components/dashboard-breadcrumb";
 import { getEventBySlug } from "@/actions/events";
-import parse from "html-react-parser";
+import { ContentLayout } from "@/components/dashboard/content-layout";
 
 export default async function DashboardPage({
-  params: { id },
+  params: { eventId },
 }: {
-  params: { id: string };
+  params: { eventId: string };
 }) {
-  const event = await getEventBySlug({ id });
-  // console.log(event);
+  const event = await getEventBySlug({ eventId });
 
-  const description: any = JSON.stringify(event?.content);
+  const content = event?.content || [];
+
+  // console.log(content);
+
   return (
     <ContentLayout title='Dashboard'>
       <div className='flex items-center justify-between'>
@@ -66,7 +67,7 @@ export default async function DashboardPage({
               <div className='flex flex-col px-4 py-8 max-w-4xl'>
                 <h2 className='text-primary font-bold text-lg'>Ben</h2>
                 <article className='prose lg:prose-xl'>
-                  {parse(`${description}`)}
+                  {/* {convertToHtml(content)} */}
                 </article>
 
                 <div className='my-8'>
