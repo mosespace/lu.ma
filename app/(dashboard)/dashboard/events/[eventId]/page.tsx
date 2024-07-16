@@ -16,10 +16,6 @@ export default async function DashboardPage({
 }) {
   const event = await getEventBySlug({ eventId });
 
-  const content = event?.content || [];
-
-  // console.log(content);
-
   return (
     <ContentLayout title='Dashboard'>
       <div className='flex items-center justify-between'>
