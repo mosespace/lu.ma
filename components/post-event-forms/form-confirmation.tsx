@@ -5,13 +5,26 @@ import Image from "next/image";
 import { Copy } from "lucide-react";
 import { Button } from "../ui/button";
 import { useSelector } from "react-redux";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function FormConfirmation() {
+  const [copied, setCopied] = useState(false);
+  const router = useRouter();
   const formData: any = useSelector(
     (state: any) => state.creatingEvent.formData
   );
 
   const event_url = process.env.NEXT_PUBLIC_EVENT_URL as string;
+
+  const url = `${event_url}/${formData?.slug}`;
+
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000); // Hide the "copied" message after 2 seconds
+  };
+
   return (
     <div className='min-h-screen py-8 w-full flex flex-col items-center justify-center'>
       <div className='flex w-full flex-col items-center justify-center'>
@@ -38,17 +51,24 @@ export function FormConfirmation() {
                 <h2 className='font-bold text-lg text-orangeB'>
                   Event Published
                 </h2>
-                <p className='line-clamp-5'>{formData?.description}</p>
+                <p className='line-clamp-5'>{formData?.shortDescription}</p>
               </div>
 
               <div className='flex items-center justify-between text-gray-800 border border-gray-800 bg-white max-w-sm font-mono text-sm py-3 px-4 w-full mt-4 rounded-lg'>
                 <div className='flex gap-1'>
                   <span>$</span>
-                  <span>{`${formData?.slug}/${event_url}`}</span>
+                  <span>{url}</span>
                 </div>
-                <span className='flex text-gray-800 cursor-pointer w-5 h-5 hover:text-gray-400 duration-200'>
-                  <Copy className='size-4' />
-                </span>
+                <CopyToClipboard text={url} onCopy={handleCopy}>
+                  <span className='flex text-gray-800 cursor-pointer w-5 h-5 hover:text-gray-400 duration-200'>
+                    <Copy className='size-4' />
+                  </span>
+                </CopyToClipboard>
+                {copied && (
+                  <span className='absolute top-12 right-12 mt-2 mr-2 px-2 py-1 bg-green-500 text-white text-xs rounded'>
+                    Copied..
+                  </span>
+                )}
               </div>
 
               <div className='w-full mt-4'>
@@ -178,10 +198,16 @@ export function FormConfirmation() {
               </div>
 
               <div className='flex gap-2 items-center'>
-                <Button variant='outline' className='w-full'>
+                <Button
+                  onClick={() => router.push("/")}
+                  variant='outline'
+                  className='w-full'
+                >
                   Go to home
                 </Button>
-                <Button className='w-full'>View live event</Button>
+                <Button onClick={() => router.push(url)} className='w-full'>
+                  View live event
+                </Button>
               </div>
             </div>
           </div>

@@ -14,7 +14,11 @@
     "reduxjs",
     "searchbar",
     "selectables",
+    "Sucessfully",
     "tanstack",
+    "tiptap",
+    "useables",
+    "uuidv",
     "vaul",
     "zustand"
   ]

@@ -1,10 +1,18 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resetForm, setCurrentStep } from "@/store/slices/form-slice";
 import { Button } from "../ui/button";
+import { createEvent } from "@/actions/events";
+import { Loader } from "lucide-react";
+import { useToast } from "../ui/use-toast";
 
 export default function FooterBtns() {
-  const step = useSelector((state: any) => state.creatingEvent.step);
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+
+  const step: any = useSelector((state: any) => state.creatingEvent.step);
   const formData = useSelector((state: any) => state.creatingEvent.formData);
 
   const dispatch = useDispatch();
@@ -13,11 +21,30 @@ export default function FooterBtns() {
     dispatch(setCurrentStep(step - 1));
   };
 
-  const handleSubmit = () => {
+  async function handleSubmit() {
     // Submit formData to your database
+    // console.log("function running");
     console.log("Final Form Data: ", formData);
-    dispatch(resetForm());
-  };
+    setLoading(true);
+    try {
+      const event: any = await createEvent({ data: formData });
+      console.log(event);
+
+      toast({
+        title: "Event has been created successfully",
+      });
+      dispatch(setCurrentStep(step + 1));
+      // dispatch(resetForm());
+    } catch (error: any) {
+      toast({
+        title: "Event creation has failed...",
+        variant: "destructive",
+      });
+      console.error("Event creation error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
     <div className='flex max-w-4xl w-full mx-auto justify-end gap-2 items-end'>
       {step > 1 && (
@@ -43,9 +70,10 @@ export default function FooterBtns() {
       {step === 4 && (
         <Button
           type='submit'
-          onClick={() => handleSubmit()}
-          className='w-[10rem] mt-4'
+          onClick={handleSubmit}
+          className='flex gap-2 w-[15rem] mt-4'
         >
+          {loading && <Loader className='animate-spin size-4' />}
           Confirm and Submit
         </Button>
       )}

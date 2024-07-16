@@ -4,65 +4,65 @@
 
 @layer base {
   :root {
-    --background: 18 100% 98.04%;
-    --foreground: 21.6 100% 4.9%;
+    --background: 160 17.65% 96.67%;
+    --foreground: 157.5 80% 1.96%;
 
-    --primary: 21.26 100% 49.8%;
+    --primary: 159.29 84% 19.61%;
     --primary-foreground: 0 0% 100%;
 
-    --card: 18 100% 98.04%;
-    --card-foreground: 21.6 100% 4.9%;
+    --card: 160 17.65% 96.67%;
+    --card-foreground: 157.5 80% 1.96%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 21.6 100% 4.9%;
+    --popover-foreground: 157.5 80% 1.96%;
 
-    --secondary: 20.53 100% 92.55%;
-    --secondary-foreground: 24 100% 1.96%;
+    --secondary: 156.92 21.31% 88.04%;
+    --secondary-foreground: 165 100% 0.78%;
 
-    --muted: 21.6 100% 95.1%;
+    --muted: 160 21.95% 91.96%;
     --muted-foreground: 0 0% 40%;
 
-    --accent: 21.6 100% 95.1%;
-    --accent-foreground: 21.26 100% 49.8%;
+    --accent: 160 21.95% 91.96%;
+    --accent-foreground: 159.29 84% 19.61%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 0 0% 90.2%;
     --input: 0 0% 90.2%;
-    --ring: 21.26 100% 49.8%;
+    --ring: 159.29 84% 19.61%;
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 24 100% 1.96%;
-    --foreground: 20.53 100% 92.55%;
+    --background: 165 100% 0.78%;
+    --foreground: 156.92 21.31% 88.04%;
 
-    --primary: 21.26 100% 49.8%;
+    --primary: 159.29 84% 19.61%;
     --primary-foreground: 0 0% 100%;
 
-    --card: 24 100% 1.96%;
-    --card-foreground: 20.53 100% 92.55%;
+    --card: 165 100% 0.78%;
+    --card-foreground: 156.92 21.31% 88.04%;
 
-    --popover: 24 100% 1.96%;
-    --popover-foreground: 20.53 100% 92.55%;
+    --popover: 165 100% 0.78%;
+    --popover-foreground: 156.92 21.31% 88.04%;
 
-    --secondary: 20.9 100% 17.45%;
+    --secondary: 159.31 82.86% 6.86%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 26.67 15.25% 11.57%;
-    --muted-foreground: 24 2.01% 51.18%;
+    --muted: 165 7.41% 10.59%;
+    --muted-foreground: 150 0.79% 50.59%;
 
-    --accent: 20.9 100% 17.45%;
-    --accent-foreground: 20.53 100% 92.55%;
+    --accent: 159.31 82.86% 6.86%;
+    --accent-foreground: 156.92 21.31% 88.04%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
-    --ring: 21.26 100% 49.8%;
+    --ring: 159.29 84% 19.61%;
 
     --radius: 0.5rem;
   }
@@ -76,6 +76,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* #085C3F main color code */
 
 /* services-card */
 .card {
@@ -288,4 +290,9 @@
   outline: none;
   padding: 0 8px;
   width: 2.8em;
+}
+
+/* applied to the upload indicator when uploading */
+.custom-class > *[data-ut-element="button"][data-state="uploading"]::after {
+  background-color: rgb(234 88 12 / 1);
 }
