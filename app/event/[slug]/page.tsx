@@ -90,7 +90,7 @@ export default function page({ params: { slug } }: { params: any }) {
 
   return (
     <div className=''>
-      <div className='max-w-7xl flex-col mx-auto min-h-screen w-full flex items-centers justify-centers px-8'>
+      <div className='max-w-7xl flex-col mx-auto min-h-screen w-full flex items-centers justify-centers px-4 md:px-8'>
         <div className='grid gap-2 mt-8 lg:mx-auto lg:grid-cols-3 h-[30rem]'>
           <div className='relative h-full p-2 overflow-hidden border rounded-3xl lg:col-span-2'>
             <img
@@ -115,7 +115,7 @@ export default function page({ params: { slug } }: { params: any }) {
           </Balancer>
         </div>
         <div className='flex flex-col px-4 py-8 max-w-4xl'>
-          <h2 className='text-primary font-bold text-lg'>Ben</h2>
+          <h2 className='text-primary font-bold text-lg'>Title</h2>
 
           <p className=''>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam in
@@ -189,7 +189,7 @@ export default function page({ params: { slug } }: { params: any }) {
                 </button>
               </div>
             </div>
-            <div className='grid grid-cols-4 justify-center gap-2'>
+            <div className='grid gird-cols-1 md:grid-cols-4 justify-center gap-2'>
               {events.map((event: EventCardProps) => (
                 <EventCard
                   key={event.id}
@@ -221,7 +221,7 @@ export default function page({ params: { slug } }: { params: any }) {
                 </button>
               </div> */}
             </div>
-            <div className='grid grid-cols-4 justify-center gap-2'>
+            <div className='grid gird-cols-1 md:grid-cols-4 justify-center gap-2'>
               {favorite.map((event: EventCardProps) => (
                 <EventCard
                   key={event.id}

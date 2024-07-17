@@ -8,13 +8,20 @@ import { Button } from "@/components/ui/button";
 import DashboardBreadcrumb from "@/components/dashboard-breadcrumb";
 import { getEventBySlug } from "@/actions/events";
 import { ContentLayout } from "@/components/dashboard/content-layout";
+import Editor from "@/components/editor/advanced-editor";
 
-export default async function DashboardPage({
+// Import other extensions if needed
+
+export default async function EventDashboardDetailedPage({
   params: { eventId },
 }: {
   params: { eventId: string };
 }) {
   const event = await getEventBySlug({ eventId });
+  const content: any = JSON.parse(event?.content as string);
+
+  // Log JSON content for debugging
+  // console.log("JSON content:", content);
 
   return (
     <ContentLayout title='Dashboard'>
@@ -60,13 +67,18 @@ export default async function DashboardPage({
                 </Balancer>
               </div>
 
-              <div className='flex flex-col px-4 py-8 max-w-4xl'>
-                <h2 className='text-primary font-bold text-lg'>Ben</h2>
-                <article className='prose lg:prose-xl'>
-                  {/* {convertToHtml(content)} */}
-                </article>
+              <div className='flex flex-col px-4 py-8 '>
+                {/* <article className='prose lg:prose-xl'> */}
+                <div className=''>
+                  <Editor
+                    isEditable={false}
+                    initialValue={content}
+                    onChange={content}
+                  />
+                </div>
+                {/* </article> */}
 
-                <div className='my-8'>
+                <div className='my-8 max-w-4xl'>
                   <Map />
                 </div>
               </div>

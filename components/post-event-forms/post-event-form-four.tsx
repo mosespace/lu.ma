@@ -7,11 +7,10 @@ import { ProgressTracker } from "../progress";
 import { DateRangePicker } from "../date-picker";
 import { useAppSelector } from "@/store/hooks/hooks";
 import { Controller, useForm } from "react-hook-form";
-import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
+import { updateFormData } from "@/store/slices/form-slice";
 import MultipleImageUpload from "./multiple-image-upload";
 import { useState } from "react";
 import { Label } from "../ui/label";
-import { createEvent } from "@/actions/events";
 
 interface FormSchema {
   dateRange: {
@@ -26,11 +25,12 @@ interface FormSchema {
 }
 
 export function PostEventFormFour() {
-  const [posters, setPosters] = useState<any>();
   const step = useSelector((state: any) => state.creatingEvent.step);
 
   const dispatch = useDispatch();
   const formData = useAppSelector((state: any) => state.creatingEvent.formData);
+
+  const [posters, setPosters] = useState<any>(formData.posters || "");
 
   const {
     register,
@@ -61,7 +61,7 @@ export function PostEventFormFour() {
       <div className='flex w-full flex-col items-center justify-center'>
         <h2 className='font-bold text-xl'>Description-Класс</h2>
 
-        <p className='mb-4'>Шаг {step} из 4</p>
+        <p className='mb-4'>Step {step} of 4</p>
         <ProgressTracker />
       </div>
       <div className='flex bg-white max-w-4xl w-full mx-auto mt-4 shadow-lg rounded-lg p-12'>

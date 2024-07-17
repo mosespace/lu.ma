@@ -82,7 +82,7 @@ export function PostEventFormThree() {
     >
       <div className='flex w-full flex-col items-center justify-center'>
         <h2 className='font-bold text-xl'>Description-Класс</h2>
-        <p className='mb-4'>Шаг {step} из 4</p>
+        <p className='mb-4'>Step {step} of 4</p>
         <ProgressTracker />
       </div>
 
