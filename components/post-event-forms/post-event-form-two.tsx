@@ -22,12 +22,13 @@ interface FormSchema {
 }
 
 export function PostEventFormTwo() {
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const formData = useSelector((state: any) => state.creatingEvent.formData);
+
+  const [phoneNumber, setPhoneNumber] = useState<string>(formData.tel || "");
 
   const dispatch = useDispatch();
   const step = useSelector((state: any) => state.creatingEvent.step);
   // console.log(step);
-  const formData = useSelector((state: any) => state.creatingEvent.formData);
 
   const {
     register,
@@ -42,7 +43,7 @@ export function PostEventFormTwo() {
   function onSubmit(data: FormSchema) {
     data.tel = phoneNumber;
 
-    // console.log(data);
+    console.log(data);
 
     dispatch(updateFormData(data));
 
@@ -61,7 +62,7 @@ export function PostEventFormTwo() {
       <div className='flex w-full flex-col items-center justify-center'>
         <h2 className='font-bold text-xl'>Location-Класс</h2>
 
-        <p className='mb-4'>Шаг {step} из 4</p>
+        <p className='mb-4'>Step {step} of 4</p>
         <ProgressTracker />
       </div>
 
@@ -111,7 +112,11 @@ export function PostEventFormTwo() {
 
             <div className='space-y-2'>
               <Label>Contact Details</Label>
-              <PhoneInput onChange={handlePhoneChange} defaultCountry='UG' />
+              <PhoneInput
+                value={phoneNumber}
+                onChange={handlePhoneChange}
+                defaultCountry='UG'
+              />
             </div>
           </div>
 

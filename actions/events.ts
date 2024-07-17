@@ -80,7 +80,7 @@ export async function createEvent({ data }: { data: any }) {
       startDate: new Date(data.startDate),
       endDate: new Date(data.endDate),
       location: data.location,
-      userId: "667ae6c236b7463cc202e800",
+      userId: data.userId,
       posters: data.posters,
     };
 

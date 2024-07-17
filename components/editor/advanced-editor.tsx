@@ -19,15 +19,17 @@ import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import { Separator } from "../ui/separator";
 import { defaultExtensions } from "./extensions";
 import { uploadFn } from "./image-upload";
+import { cn } from "@/lib/utils";
 
 const extensions = [...defaultExtensions, slashCommand];
 
 interface EditorProp {
   initialValue?: any;
+  isEditable?: boolean;
   onChange: (value: any) => void;
 }
 
-const Editor = ({ initialValue, onChange }: EditorProp) => {
+const Editor = ({ initialValue, onChange, isEditable = true }: EditorProp) => {
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
@@ -35,7 +37,10 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
   return (
     <EditorRoot>
       <EditorContent
-        className='border p-4 rounded-xl'
+        className={cn({
+          "border p-4 rounded-xl": isEditable,
+          "w-full ": !isEditable,
+        })}
         {...(initialValue && { initialContent: initialValue })}
         extensions={extensions}
         editorProps={{
@@ -50,6 +55,7 @@ const Editor = ({ initialValue, onChange }: EditorProp) => {
               "prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
           },
         }}
+        editable={isEditable}
         onUpdate={({ editor }) => {
           onChange(editor.getJSON());
         }}
