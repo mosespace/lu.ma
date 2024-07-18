@@ -7,10 +7,13 @@ import { ProgressTracker } from "../progress";
 import { DateRangePicker } from "../date-picker";
 import { useAppSelector } from "@/store/hooks/hooks";
 import { Controller, useForm } from "react-hook-form";
-import { updateFormData } from "@/store/slices/form-slice";
+import { setCurrentStep, updateFormData } from "@/store/slices/form-slice";
 import MultipleImageUpload from "./multiple-image-upload";
 import { useState } from "react";
 import { Label } from "../ui/label";
+import { getCurrentUser } from "@/lib/authProvider";
+import { createEvent } from "@/actions/events";
+import { useToast } from "../ui/use-toast";
 
 interface FormSchema {
   dateRange: {
@@ -25,12 +28,15 @@ interface FormSchema {
 }
 
 export function PostEventFormFour() {
+  const { toast } = useToast();
+
   const step = useSelector((state: any) => state.creatingEvent.step);
 
   const dispatch = useDispatch();
   const formData = useAppSelector((state: any) => state.creatingEvent.formData);
 
   const [posters, setPosters] = useState<any>(formData.posters || "");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const {
     register,
@@ -51,6 +57,37 @@ export function PostEventFormFour() {
     // console.log(data);
 
     dispatch(updateFormData(data as any));
+
+    setLoading(true);
+    try {
+      // Retrieving the current user
+      const user: any = await getCurrentUser();
+      const userId = user.id;
+
+      // Merging userId into formData
+      const updatedFormData = { ...formData, userId };
+      console.log(updatedFormData);
+
+      // saving the data to the database
+      const event: any = await createEvent({ data: updatedFormData });
+      console.log("Event created: ", event);
+
+      toast({
+        title: "Event has been created successfully",
+        variant: "default",
+      });
+
+      setLoading(false);
+
+      dispatch(setCurrentStep(step + 1));
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      toast({
+        title: "Event creation has failed...",
+        variant: "destructive",
+      });
+    }
   }
 
   return (
@@ -98,7 +135,7 @@ export function PostEventFormFour() {
         </div>
       </div>
 
-      <FooterBtns />
+      <FooterBtns loading={loading} />
     </form>
   );
 }
