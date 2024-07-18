@@ -39,7 +39,7 @@ export async function getEventBySlug({ eventId }: { eventId: string }) {
 }
 
 export async function createEvent({ data }: { data: any }) {
-  console.log(data);
+  console.log("Received Data: ", data);
   try {
     // Check if the event already exists
     const existingEvent = await db.event.findUnique({
